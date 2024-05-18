@@ -5,8 +5,13 @@ import { AppBar, Box, Container, IconButton, Toolbar } from "@mui/material";
 import CoreIcon from "../core/core-icon";
 import GCELogo from "../utils/gce-logo";
 import NavLinks from "./nav-links";
+import UserMenu from "../auth/user-menu";
 
-const Navbar = () => {
+// -----------------------------------------------------------
+
+interface Props {}
+
+const Navbar: React.FC<Props> = () => {
     return (
         <AppBar
             elevation={0}
@@ -34,9 +39,7 @@ const Navbar = () => {
                             <CoreIcon.MagnifyingGlass size={24} />
                         </IconButton>
 
-                        <IconButton>
-                            <CoreIcon.User size={24} />
-                        </IconButton>
+                        <UserMenu />
 
                         <IconButton>
                             <CoreIcon.ShoppingCart size={24} />

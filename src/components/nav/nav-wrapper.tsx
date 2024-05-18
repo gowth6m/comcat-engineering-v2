@@ -1,6 +1,9 @@
-import { Box } from "@mui/material";
+"use server";
+
 import React from "react";
 import Navbar from "./navbar";
+import { Box } from "@mui/material";
+import { auth } from "@/auth";
 
 // ------------------------------------------------------------
 
@@ -8,7 +11,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-const NavWrapper: React.FC<Props> = ({ children }) => {
+const NavWrapper = ({ children }: Props) => {
     return (
         <>
             <Navbar />

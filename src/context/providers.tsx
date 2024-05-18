@@ -3,9 +3,14 @@
 import React from "react";
 import ThemeProvider from "@/theme/theme-provider";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { AuthProvider } from "./auth-provider";
+import { Session } from "next-auth";
+
+// --------------------------------------------------------------
 
 interface Props {
     children: React.ReactNode;
+    session: Session | null;
 }
 
 const queryClient = new QueryClient({
@@ -17,10 +22,14 @@ const queryClient = new QueryClient({
     },
 });
 
-const Providers: React.FC<Props> = ({ children }) => {
+// --------------------------------------------------------------
+
+const Providers: React.FC<Props> = ({ children, session }) => {
     return (
         <QueryClientProvider client={queryClient}>
-            <ThemeProvider>{children}</ThemeProvider>
+            <AuthProvider session={session}>
+                <ThemeProvider>{children}</ThemeProvider>
+            </AuthProvider>
         </QueryClientProvider>
     );
 };

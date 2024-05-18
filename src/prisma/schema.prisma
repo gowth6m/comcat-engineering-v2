@@ -7,7 +7,7 @@ generator client {
     provider = "prisma-client-js"
 }
 
-model product {
+model Product {
     id           String      @id @default(auto()) @map("_id") @db.ObjectId
     name         String
     slug         String
@@ -21,27 +21,28 @@ model product {
     description  String
     createdAt    DateTime    @default(now())
     updatedAt    DateTime    @updatedAt
-    orderItem    orderItem[]
-    review       review[]
+    orderItem    OrderItem[]
+    review       Review[]
 }
 
-model user {
+model User {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    name      String
+    firstName String
+    lastName  String
     email     String   @unique
     password  String
     isAdmin   Boolean  @default(false)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-    order     order[]
-    review    review[]
+    order     Order[]
+    review    Review[]
 }
 
-model order {
+model Order {
     id              String      @id @default(auto()) @map("_id") @db.ObjectId
-    user            user        @relation(fields: [userId], references: [id])
+    user            User        @relation(fields: [userId], references: [id])
     userId          String      @db.ObjectId
-    orderItems      orderItem[]
+    orderItems      OrderItem[]
     shippingAddress String
     paymentMethod   String
     paymentResult   String
@@ -56,23 +57,23 @@ model order {
     updatedAt       DateTime    @updatedAt
 }
 
-model orderItem {
+model OrderItem {
     id        String  @id @default(auto()) @map("_id") @db.ObjectId
-    product   product @relation(fields: [productId], references: [id])
+    product   Product @relation(fields: [productId], references: [id])
     productId String  @db.ObjectId
     name      String
     image     String
     price     Float
     qty       Int
-    order     order?  @relation(fields: [orderId], references: [id])
+    order     Order?  @relation(fields: [orderId], references: [id])
     orderId   String? @db.ObjectId
 }
 
-model review {
+model Review {
     id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    user      user     @relation(fields: [userId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
     userId    String   @db.ObjectId
-    product   product  @relation(fields: [productId], references: [id])
+    product   Product  @relation(fields: [productId], references: [id])
     productId String   @db.ObjectId
     name      String
     rating    Float
