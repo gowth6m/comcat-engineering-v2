@@ -8,7 +8,6 @@ import { loginAction } from "@/auth/auth-actions";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { LoginSchema } from "@/auth";
 import toast from "react-hot-toast";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 
 // --------------------------------------------------
