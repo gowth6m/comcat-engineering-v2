@@ -1,11 +1,11 @@
 import "@/theme/globals.css";
+import { auth } from "@/auth";
 import type { Metadata } from "next";
-import NavWrapper from "@/components/nav/nav-wrapper";
 import Providers from "@/context/providers";
 import { AppConfig } from "@/configs/app-config";
+import NavWrapper from "@/components/nav/nav-wrapper";
 import CoreToaster from "@/components/core/core-toaster";
-import { auth, BASE_PATH } from "@/auth";
-import { SessionProvider } from "next-auth/react";
+import ProgressBar from "@/components/progress-bar";
 
 // --------------------------------------------------------------
 
@@ -30,6 +30,7 @@ export default async function RootLayout({
             <body>
                 <Providers session={session}>
                     <CoreToaster />
+                    <ProgressBar />
                     <NavWrapper>{children}</NavWrapper>
                 </Providers>
             </body>

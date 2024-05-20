@@ -1,8 +1,10 @@
-import LoadingTopbar from "@/components/core/loading-topbar";
+import { LoadingScreen } from "@/components/loading-screen";
 import React from "react";
 
+// --------------------------------------------------------------
+
 const Loading = () => {
-    return <LoadingTopbar />;
+    return <LoadingScreen />;
 };
 
 export default Loading;
