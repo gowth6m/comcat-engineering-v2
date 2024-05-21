@@ -42,6 +42,7 @@ export function button(theme: Theme) {
         const largeSize = ownerState.size === "large";
 
         const defaultStyle = {
+            boxShadow: "none",
             ...(inheritColor && {
                 // CONTAINED
                 ...(containedVariant && {

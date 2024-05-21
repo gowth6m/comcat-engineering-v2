@@ -6,6 +6,7 @@ import { AppConfig } from "@/configs/app-config";
 import NavWrapper from "@/components/nav/nav-wrapper";
 import CoreToaster from "@/components/core/core-toaster";
 import ProgressBar from "@/components/progress-bar";
+import { SessionProvider } from "next-auth/react";
 
 // --------------------------------------------------------------
 
@@ -28,11 +29,13 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body>
-                <Providers session={session}>
-                    <CoreToaster />
-                    <ProgressBar />
-                    <NavWrapper>{children}</NavWrapper>
-                </Providers>
+                <SessionProvider session={session}>
+                    <Providers session={session}>
+                        <CoreToaster />
+                        <ProgressBar />
+                        <NavWrapper>{children}</NavWrapper>
+                    </Providers>
+                </SessionProvider>
             </body>
         </html>
     );
