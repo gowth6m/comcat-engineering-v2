@@ -14,7 +14,7 @@ import React from "react";
 import toast from "react-hot-toast";
 import { useMutation } from "react-query";
 import CoreIcon from "../core/core-icon";
-import LoadingTopbar from "../core/loading-topbar";
+import LoadingTopbar from "../progress-bar/loading-topbar";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/auth-provider";
 

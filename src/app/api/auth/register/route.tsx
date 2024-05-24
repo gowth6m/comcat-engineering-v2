@@ -1,16 +1,13 @@
-import prisma from "@/prisma";
-import { ResponseCode } from "@/types/api.type";
-import { NextResponse } from "next/server";
 import { z } from "zod";
+import prisma from "@/prisma";
+import { NextResponse } from "next/server";
+import { zodFieldErrors } from "../../utils";
+import { ResponseCode } from "@/types/api.type";
+import { registerSchema } from "@/types/validation";
 
 var bcrypt = require("bcryptjs");
 
-const userSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
-    firstName: z.string().min(1),
-    lastName: z.string().min(1),
-});
+// --------------------------------------------------
 
 /**
  * Register a new user, and return the user object.
@@ -22,7 +19,8 @@ export async function POST(request: Request) {
     try {
         // Parse and validate the request body
         const body = await request.json();
-        const { email, password, firstName, lastName } = userSchema.parse(body);
+        const { email, password, firstName, lastName } =
+            registerSchema.parse(body);
 
         await prisma.$connect();
         const user = await prisma.user.create({
@@ -45,22 +43,24 @@ export async function POST(request: Request) {
             },
         });
     } catch (error) {
-        // Handle validation errors
         if (error instanceof z.ZodError) {
+            console.error(error.errors);
             return NextResponse.json(
                 {
                     message: "Validation error",
-                    errors: error.errors,
+                    errors: zodFieldErrors(error.errors),
                 },
                 { status: ResponseCode.BadRequest }
             );
         }
 
-        // Handle other errors
         return NextResponse.json(
             {
                 message: "Internal server error",
-                error: error,
+                errors: {
+                    field: null,
+                    message: "Something went wrong",
+                },
             },
             { status: ResponseCode.InternalServerError }
         );

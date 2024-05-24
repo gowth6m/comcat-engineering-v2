@@ -1,5 +1,7 @@
 import { Box, LinearProgress } from "@mui/material";
 
+// ----------------------------------------------------------------------
+
 const LoadingTopbar = () => {
     return (
         <Box sx={styles.Box}>
@@ -14,10 +16,11 @@ const styles = {
         position: "fixed",
         top: 0,
         left: 0,
-        zIndex: 1400,
+        height: 0,
+        zIndex: 9999,
     },
     LinearProgress: {
-        height: "0.5rem",
+        height: 4,
     },
 };
 

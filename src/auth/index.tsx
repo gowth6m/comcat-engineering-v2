@@ -1,5 +1,5 @@
-import { z } from "zod";
 import prisma from "@/prisma";
+import { loginSchema } from "@/types/validation";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
@@ -8,15 +8,6 @@ var bcrypt = require("bcryptjs");
 // --------------------------------------------------------------
 
 export const BASE_PATH = "/api/auth";
-
-// --------------------------------------------------------------
-
-export const LoginSchema = z.object({
-    email: z
-        .string({ required_error: "Email is required" })
-        .email("Invalid email"),
-    password: z.string({ required_error: "Password is required" }),
-});
 
 // --------------------------------------------------------------
 
@@ -30,7 +21,7 @@ const authOptions: NextAuthConfig = {
                 password: { label: "Password", type: "password" },
             },
             authorize: async (credentials) => {
-                const validatedFields = LoginSchema.safeParse(credentials);
+                const validatedFields = loginSchema.safeParse(credentials);
 
                 if (validatedFields.success) {
                     const { email, password } = validatedFields.data;

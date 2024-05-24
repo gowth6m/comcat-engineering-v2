@@ -1,3 +1,4 @@
+import { colors } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
 // ----------------------------------------------------------------------
@@ -40,11 +41,11 @@ export const grey = {
 };
 
 export const primary = {
-    lighter: "#FCC5CC",
-    light: "#F88C99",
-    main: "#F56476",
-    dark: "#F22C43",
-    darker: "#D30D25",
+    lighter: colors.orange[200],
+    light: colors.orange[400],
+    main: colors.orange[700],
+    dark: colors.orange[800],
+    darker: colors.orange[900],
     contrastText: "#F8F8F8",
 };
 
@@ -85,11 +86,11 @@ export const warning = {
 };
 
 export const error = {
-    lighter: "#FFE9D5",
-    light: "#FFAC82",
-    main: "#FF5630",
-    dark: "#B71D18",
-    darker: "#7A0916",
+    lighter: "#E66065",
+    light: "#E13D42",
+    main: "#cd2026",
+    dark: "#B01C21",
+    darker: "#8D161A",
     contrastText: "#FFFFFF",
 };
 

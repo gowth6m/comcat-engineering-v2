@@ -1,13 +1,14 @@
 "use server";
 
-import { LoginSchema, signIn, signOut } from "@/auth";
+import { signIn, signOut } from "@/auth";
+import { loginSchema } from "@/types/validation";
 import { AuthError } from "next-auth";
 import { z } from "zod";
 
 // ------------------------------------------------------------
 
-export async function loginAction(values: z.infer<typeof LoginSchema>) {
-    const validatedFields = LoginSchema.safeParse(values);
+export async function loginAction(values: z.infer<typeof loginSchema>) {
+    const validatedFields = loginSchema.safeParse(values);
 
     if (!validatedFields.success) {
         return {

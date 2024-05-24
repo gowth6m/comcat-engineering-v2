@@ -14,4 +14,8 @@ export enum ResponseCode {
     ServiceUnavailable = 503,
 }
 
+export type ApiError = {
+    field: string;
+    message: string;
+}
 

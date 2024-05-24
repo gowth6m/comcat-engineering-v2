@@ -1,6 +1,8 @@
-import { Box, Typography } from "@mui/material";
 import React from "react";
+import { Box, Typography } from "@mui/material";
 import CoreIcon from "../core/core-icon";
+
+// --------------------------------------------------
 
 interface Props {
     message: string | null;
@@ -12,19 +14,19 @@ const ErrorMessage: React.FC<Props> = ({ message }) => {
     return (
         <Box
             sx={{
-                backgroundColor: "error.lighter",
-                color: "error.main",
+                backgroundColor: "error.main",
+                color: "error.contrastText",
+                borderRadius: 1,
                 px: 2,
                 py: 1,
-                borderRadius: 1,
             }}
         >
             <Typography
                 variant="body1"
-                color="error"
                 sx={{
-                    display: "flex",
+                    color: "error.contrastText",
                     alignItems: "center",
+                    display: "flex",
                     gap: 1,
                 }}
             >
