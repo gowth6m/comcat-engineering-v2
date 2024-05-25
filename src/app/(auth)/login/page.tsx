@@ -6,15 +6,20 @@ import toast from "react-hot-toast";
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { ApiError } from "@/types/api.type";
+import { loginSchema } from "@/types/validation";
+import useErrorHandler from "@/hooks/useErrorHandler";
 import { Box, Button, TextField } from "@mui/material";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import LoadingTopbar from "@/components/progress-bar/loading-topbar";
-import { loginSchema } from "@/types/validation";
+import UncapturedErrorMessages from "@/components/error/uncaptured-error-messages";
 
 // --------------------------------------------------
 
 export default function LoginPage() {
     const [error, setError] = useState<ApiError[]>([]);
+    const { hasError, getErrorMessage } = useErrorHandler({
+        errorMap: error,
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -36,7 +41,7 @@ export default function LoginPage() {
         },
         onError: (error: any) => {
             toast.error("Login failed");
-            setError(error.response.data.error);
+            setError(error.response.data.errors);
         },
     });
 
@@ -62,9 +67,16 @@ export default function LoginPage() {
                     onBlur={formik.handleBlur}
                     value={formik.values.email}
                     onChange={formik.handleChange}
-                    error={formik.touched.email && Boolean(formik.errors.email)}
-                    helperText={formik.touched.email && formik.errors.email}
                     required
+                    error={
+                        (formik.touched.email &&
+                            Boolean(formik.errors.email)) ||
+                        hasError({ field: "email" })
+                    }
+                    helperText={
+                        (formik.touched.email && formik.errors.email) ||
+                        getErrorMessage({ field: "email" })
+                    }
                 />
                 <TextField
                     id={"password"}
@@ -76,13 +88,17 @@ export default function LoginPage() {
                     onBlur={formik.handleBlur}
                     required
                     error={
-                        formik.touched.password &&
-                        Boolean(formik.errors.password)
+                        (formik.touched.password &&
+                            Boolean(formik.errors.password)) ||
+                        hasError({ field: "password" })
                     }
                     helperText={
-                        formik.touched.password && formik.errors.password
+                        (formik.touched.password && formik.errors.password) ||
+                        getErrorMessage({ field: "password" })
                     }
                 />
+
+                <UncapturedErrorMessages errorMap={error} />
 
                 <Button type={"submit"} variant={"contained"}>
                     Login

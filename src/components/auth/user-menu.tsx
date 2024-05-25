@@ -40,8 +40,9 @@ const UserMenu: React.FC<Props> = () => {
             return await logoutAction();
         },
         onSuccess: () => {
-            toast.success("Logged out successfully");
             handleClose();
+            window.location.href = "/";
+            toast.success("Logged out successfully");
         },
         onError: () => {
             toast.error("Failed to log out");

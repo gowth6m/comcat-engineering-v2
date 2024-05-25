@@ -57,10 +57,12 @@ export async function POST(request: Request) {
         return NextResponse.json(
             {
                 message: "Internal server error",
-                errors: {
-                    field: null,
-                    message: "Something went wrong",
-                },
+                errors: [
+                    {
+                        field: null,
+                        message: "Something went wrong",
+                    },
+                ],
             },
             { status: ResponseCode.InternalServerError }
         );
