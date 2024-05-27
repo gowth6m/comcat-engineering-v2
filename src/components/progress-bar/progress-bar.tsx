@@ -1,19 +1,11 @@
 "use client";
 
 import NProgress from "nprogress";
-import { Suspense, useEffect } from "react";
-
-import { useRouter, usePathname, useSearchParams } from "@/routes/hooks";
-
+import { useEffect } from "react";
+import { usePathname, useSearchParams } from "@/routes/hooks";
 import StyledProgressBar from "./styles";
 
 // ----------------------------------------------------------------------
-
-type PushStateInput = [
-    data: any,
-    unused: string,
-    url?: string | URL | null | undefined
-];
 
 export default function ProgressBar() {
     useEffect(() => {
@@ -21,7 +13,6 @@ export default function ProgressBar() {
 
         const handleAnchorClick = (event: MouseEvent) => {
             const targetUrl = (event.currentTarget as HTMLAnchorElement).href;
-
             const currentUrl = window.location.href;
 
             if (targetUrl !== currentUrl) {
@@ -49,21 +40,42 @@ export default function ProgressBar() {
 
         mutationObserver.observe(document, { childList: true, subtree: true });
 
-        window.history.pushState = new Proxy(window.history.pushState, {
-            apply: (target, thisArg, argArray: PushStateInput) => {
-                NProgress.done();
-                return target.apply(thisArg, argArray);
-            },
+        const originalPushState = window.history.pushState;
+        const originalReplaceState = window.history.replaceState;
+
+        window.history.pushState = function (...args) {
+            const returnValue = originalPushState.apply(window.history, args);
+            NProgress.done();
+            return returnValue;
+        };
+
+        window.history.replaceState = function (...args) {
+            const returnValue = originalReplaceState.apply(
+                window.history,
+                args
+            );
+            NProgress.done();
+            return returnValue;
+        };
+
+        window.addEventListener("popstate", () => {
+            NProgress.done();
         });
-    });
+
+        return () => {
+            mutationObserver.disconnect();
+            const anchorElements: NodeListOf<HTMLAnchorElement> =
+                document.querySelectorAll("a[href]");
+            anchorElements.forEach((anchor) =>
+                anchor.removeEventListener("click", handleAnchorClick)
+            );
+        };
+    }, []);
 
     return (
         <>
             <StyledProgressBar />
-
-            <Suspense fallback={null}>
-                <NProgressDone />
-            </Suspense>
+            <NProgressDone />
         </>
     );
 }
@@ -72,14 +84,11 @@ export default function ProgressBar() {
 
 function NProgressDone() {
     const pathname = usePathname();
-
-    const router = useRouter();
-
     const searchParams = useSearchParams();
 
     useEffect(() => {
         NProgress.done();
-    }, [pathname, router, searchParams]);
+    }, [pathname, searchParams]);
 
     return null;
 }
