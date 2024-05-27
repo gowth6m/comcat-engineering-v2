@@ -1,11 +1,18 @@
 // ----------------------------------------------------------------------
 
-const ROOTS = {
- 
-};
+export const publicRoutes = [
+    "/",
+];
 
 // ----------------------------------------------------------------------
 
-export const paths = {
+export const authRoutes = [
+    "/login",
+    "/register",
+];
 
-};
+// ----------------------------------------------------------------------
+
+export const apiAuthPrefix = "/api/auth";
+
+export const defaultLoginRedirect = "/profile";

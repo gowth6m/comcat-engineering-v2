@@ -1,24 +1,30 @@
 import { auth } from "@/auth"
 import { NextResponse } from "next/server";
+import { apiAuthPrefix, authRoutes, defaultLoginRedirect, publicRoutes } from "./routes/paths";
 
 export default auth((req) => {
+    const pathname = req.nextUrl.pathname;
     const isLoggedIn = !!req.auth;
-    const publicPaths = ['/', '/categories', '/account', '/login', '/register'];
-    const isPublicPath = publicPaths.includes(req.nextUrl.pathname);
+    const isApiAuthRoute = pathname.startsWith(apiAuthPrefix);
+    const isPublicRoute = publicRoutes.includes(pathname);
+    const isAuthRoute = authRoutes.includes(pathname);
 
-    console.log('Route: ', req.nextUrl.pathname, " - LoggedIn: ", isLoggedIn);
 
-    // if (isPublicPath) {
-    //     // Otherwise, allow the request to proceed
-    //     return NextResponse.next();
-    // }
+    if (isApiAuthRoute) {
+        return NextResponse.next();
+    }
 
-    // if (!isLoggedIn) {
-    //     // If not logged in and trying to access a protected route, redirect to login
-    //     return NextResponse.redirect(new URL('/login', req.url));
-    // }
+    if (isAuthRoute) {
+        if (isLoggedIn) {
+            return NextResponse.redirect(new URL(defaultLoginRedirect, req.nextUrl.origin).toString());
+        }
+        return NextResponse.next();
+    }
 
-    // Allow the request to proceed if authenticated
+    if (!isLoggedIn && !isPublicRoute) {
+        return NextResponse.redirect(new URL("/login", req.nextUrl.origin).toString());
+    }
+
     return NextResponse.next();
 });
 

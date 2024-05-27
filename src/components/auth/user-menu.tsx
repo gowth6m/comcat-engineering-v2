@@ -35,6 +35,11 @@ const UserMenu: React.FC<Props> = () => {
         setAnchorEl(null);
     };
 
+    const handleRoute = (route: string) => {
+        router.push(route);
+        handleClose();
+    };
+
     const logoutMutation = useMutation({
         mutationFn: async () => {
             return await logoutAction();
@@ -100,11 +105,17 @@ const UserMenu: React.FC<Props> = () => {
             >
                 {session ? (
                     <div>
-                        <MenuItem onClick={handleClose}>
-                            <Avatar /> Profile
+                        <MenuItem onClick={() => handleRoute("/profile")}>
+                            <ListItemIcon>
+                                <CoreIcon.UserCircle fontSize={24} />
+                            </ListItemIcon>
+                            Profile
                         </MenuItem>
-                        <MenuItem onClick={handleClose}>
-                            <Avatar /> My account
+                        <MenuItem onClick={() => handleRoute("/order-history")}>
+                            <ListItemIcon>
+                                <CoreIcon.ShoppingCart fontSize={24} />
+                            </ListItemIcon>
+                            Order history
                         </MenuItem>
                         <Divider />
 
