@@ -6,12 +6,15 @@ import CoreIcon from "../core/core-icon";
 import GCELogo from "../utils/gce-logo";
 import NavLinks from "./nav-links";
 import UserMenu from "../auth/user-menu";
+import { useRouter } from "next/navigation";
 
 // -----------------------------------------------------------
 
 interface Props {}
 
 const Navbar: React.FC<Props> = () => {
+    const router = useRouter();
+
     return (
         <AppBar
             elevation={0}
@@ -41,7 +44,7 @@ const Navbar: React.FC<Props> = () => {
 
                         <UserMenu />
 
-                        <IconButton>
+                        <IconButton onClick={() => router.push("/cart")}>
                             <CoreIcon.ShoppingCart size={24} />
                         </IconButton>
                     </Box>

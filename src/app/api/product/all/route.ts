@@ -14,7 +14,12 @@ export async function GET(_req: Request) {
         });
     } catch (error) {
         return NextResponse.json({
-            message: "Internal server error", error: error
+            errors: [
+                {
+                    field: null,
+                    message: "Internal server error",
+                },
+            ]
         }, {
             status: ResponseCode.InternalServerError,
         });

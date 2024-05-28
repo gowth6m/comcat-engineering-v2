@@ -1,7 +1,16 @@
 // ----------------------------------------------------------------------
 
+export const publicApiRoutes = [
+    "/api/product"
+]
+
 export const publicRoutes = [
     "/",
+    "/cart",
+    "/checkout",
+    "/categories",
+    "/services",
+    "/contact",
 ];
 
 // ----------------------------------------------------------------------

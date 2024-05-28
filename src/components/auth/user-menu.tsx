@@ -2,7 +2,6 @@
 
 import { logoutAction } from "@/auth/auth-actions";
 import {
-    Avatar,
     Divider,
     IconButton,
     ListItemIcon,
@@ -46,7 +45,7 @@ const UserMenu: React.FC<Props> = () => {
         },
         onSuccess: () => {
             handleClose();
-            window.location.href = "/";
+            router.replace("/");
             toast.success("Logged out successfully");
         },
         onError: () => {
