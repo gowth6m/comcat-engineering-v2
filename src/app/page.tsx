@@ -1,21 +1,15 @@
-import { auth } from "@/auth";
+import HeroCaraousel from "@/components/home-page/hero-caraousel";
 import AllProductGallery from "@/components/product/all-product-gallery";
 
-export default async function Home() {
-    const session = await auth();
+// --------------------------------------------------------------
 
+export default async function Home() {
     return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
+        <main className="flex min-h-screen flex-col items-center justify-between container mx-auto">
+            <HeroCaraousel />
+
             <AllProductGallery />
-            <p className="text-lg">
-                {session ? (
-                    <span>
-                        You are signed in. Email: {session?.user?.email}
-                    </span>
-                ) : (
-                    <span>You are not signed in.</span>
-                )}
-            </p>
+            <p className="text-lg"></p>
         </main>
     );
 }

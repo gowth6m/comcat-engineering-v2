@@ -16,6 +16,7 @@
         "@emotion/styled": "^11.11.5",
         "@mui/material": "^5.15.15",
         "@prisma/client": "^5.13.0",
+        "@splidejs/react-splide": "^0.7.12",
         "axios": "^1.6.8",
         "bcryptjs": "^2.4.3",
         "date-fns": "^3.6.0",
