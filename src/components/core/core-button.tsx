@@ -6,16 +6,22 @@ import { Button, ButtonProps } from "@mui/material";
 interface Props extends ButtonProps {
     buttonVariant: "primary" | "secondary" | "tertiary";
     children: React.ReactNode;
+    size?: "small" | "medium" | "large";
 }
 
-const CoreButton: React.FC<Props> = ({ buttonVariant, children, ...props }) => {
+const CoreButton: React.FC<Props> = ({
+    buttonVariant,
+    children,
+    size = "small",
+    ...props
+}) => {
     switch (buttonVariant) {
         case "primary":
             props.variant = "contained";
             props.color = "primary";
             break;
         case "secondary":
-            props.variant = "contained";
+            props.variant = "outlined";
             props.color = "secondary";
             break;
         case "tertiary":
@@ -24,7 +30,11 @@ const CoreButton: React.FC<Props> = ({ buttonVariant, children, ...props }) => {
             break;
     }
 
-    return <Button {...props}>{children}</Button>;
+    return (
+        <Button size={size} {...props}>
+            {children}
+        </Button>
+    );
 };
 
 export default CoreButton;

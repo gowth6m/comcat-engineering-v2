@@ -15,6 +15,7 @@ model Product {
     images       String[]
     brand        String
     price        Float
+    discount     Float       @default(0)
     rating       Float
     listingGroup String      @default("none")
     numReviews   Int         @default(0)

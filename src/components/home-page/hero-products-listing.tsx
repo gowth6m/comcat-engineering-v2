@@ -42,6 +42,7 @@ const HeroProductsListing = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     gap: 2,
+                    paddingY: 1,
                 }}
             >
                 <ToggleButtonGroup
@@ -51,25 +52,29 @@ const HeroProductsListing = () => {
                     onChange={handleOnViewChange}
                     aria-label="text alignment"
                 >
-                    <ToggleButton id="bestSellers" value="bestSellers">
-                        Best Sellers
-                    </ToggleButton>
-                    <ToggleButton id="newArrivals" value="newArrivals">
-                        New Arrivals
-                    </ToggleButton>
-                    <ToggleButton id="clearance" value="clearance">
-                        Clearance
-                    </ToggleButton>
+                    {["bestSellers", "newArrivals", "clearance"].map((view) => (
+                        <ToggleButton
+                            key={view}
+                            id={view}
+                            value={view}
+                            sx={{
+                                px: 4,
+                            }}
+                        >
+                            {view[0].toUpperCase() +
+                                view.slice(1).replace(/([A-Z])/g, " $1")}
+                        </ToggleButton>
+                    ))}
                 </ToggleButtonGroup>
 
                 {productsListing.isLoading ? (
-                    <div className="grid grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 w-full">
                         {Array.from({ length: 15 }).map((_, index) => (
                             <ProductCardSkeleton key={index} />
                         ))}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 w-full">
                         {productsListing.data?.data[view].map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
