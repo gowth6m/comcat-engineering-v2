@@ -18,7 +18,7 @@ const AllProductGallery = () => {
     return (
         <>
             {allProducts.isLoading && <LoadingTopbar />}
-            
+
             <div className="grid grid-cols-5 gap-2">
                 {allProducts.data?.data?.data?.map((product) => (
                     <div key={product.id}>

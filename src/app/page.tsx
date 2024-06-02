@@ -1,6 +1,5 @@
 import HeroCaraousel from "@/components/home-page/hero-caraousel";
 import HeroProductsListing from "@/components/home-page/hero-products-listing";
-import AllProductGallery from "@/components/product/all-product-gallery";
 
 // --------------------------------------------------------------
 

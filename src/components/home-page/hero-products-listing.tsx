@@ -5,6 +5,8 @@ import { useQuery } from "react-query";
 import ApiClient from "@/services/api-client";
 import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import LoadingTopbar from "../progress-bar/loading-topbar";
+import ProductCard from "../product/product-card";
+import ProductCardSkeleton from "../product/product-card-skeleton";
 
 // -----------------------------------------------------------
 
@@ -60,15 +62,19 @@ const HeroProductsListing = () => {
                     </ToggleButton>
                 </ToggleButtonGroup>
 
-                <div className="grid grid-cols-3 lg:grid-cols-5 gap-4">
-                    {productsListing.data?.data[view].map((product) => (
-                        <div key={product.id}>
-                            <h2>{product.name}</h2>
-                            <p>{product.description}</p>
-                            <img src={product.image} alt={product.name} />
-                        </div>
-                    ))}
-                </div>
+                {productsListing.isLoading ? (
+                    <div className="grid grid-cols-3 lg:grid-cols-5 gap-4">
+                        {Array.from({ length: 15 }).map((_, index) => (
+                            <ProductCardSkeleton key={index} />
+                        ))}
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-3 lg:grid-cols-5 gap-4">
+                        {productsListing.data?.data[view].map((product) => (
+                            <ProductCard key={product.id} product={product} />
+                        ))}
+                    </div>
+                )}
             </Stack>
         </>
     );

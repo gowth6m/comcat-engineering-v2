@@ -15,12 +15,14 @@ const CartButton = () => {
     return (
         <>
             <Tooltip
-                title={`
-                ${cart.length} items in cart
-            `}
+                title={
+                    cart.itemCount === 0
+                        ? "Your cart is empty"
+                        : `You have ${cart.itemCount} items in your cart`
+                }
             >
                 <IconButton onClick={() => router.push("/cart")}>
-                    <Badge badgeContent={cart.length} color="primary">
+                    <Badge badgeContent={cart.itemCount} color="primary">
                         <CoreIcon.ShoppingCart size={24} />
                     </Badge>
                 </IconButton>
