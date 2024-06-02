@@ -1,3 +1,4 @@
+import React from "react";
 import {
     Card,
     CardActions,
@@ -5,11 +6,10 @@ import {
     CardMedia,
     Typography,
 } from "@mui/material";
+import toast from "react-hot-toast";
 import { Product } from "@prisma/client";
 import CoreButton from "../core/core-button";
 import { useCartStore } from "@/stores/cart-store";
-import toast from "react-hot-toast";
-import React from "react";
 
 // -----------------------------------------------------------
 
@@ -44,13 +44,13 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             <CardContent>
                 <CardMedia
                     component="img"
-                    image={product.image}
+                    image={product.images?.[0]}
                     alt={product.name}
                     sx={{
                         height: 200,
-                        width: "auto",
+                        width: "100%",
                         objectFit: "cover",
-                        borderRadius: 1,
+                        objectPosition: "center",
                     }}
                 />
                 <Typography variant={"subtitle1"}>{product.name}</Typography>
