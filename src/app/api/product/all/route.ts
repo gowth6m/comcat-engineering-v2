@@ -23,5 +23,7 @@ export async function GET(_req: Request) {
         }, {
             status: ResponseCode.InternalServerError,
         });
+    } finally {
+        await prisma.$disconnect();
     }
 }

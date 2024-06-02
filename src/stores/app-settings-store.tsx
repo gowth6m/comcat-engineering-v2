@@ -1,5 +1,5 @@
-import { AppConfig } from "@/configs/app-config";
 import { create } from "zustand";
+import { AppConfig } from "@/configs/app-config";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 type AppSettingState = {

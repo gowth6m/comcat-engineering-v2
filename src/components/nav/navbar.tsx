@@ -1,20 +1,16 @@
-"use client";
-
 import React from "react";
-import { AppBar, Box, Container, IconButton, Toolbar } from "@mui/material";
-import CoreIcon from "../core/core-icon";
-import GCELogo from "../utils/gce-logo";
 import NavLinks from "./nav-links";
-import UserMenu from "../auth/user-menu";
-import { useRouter } from "next/navigation";
+import UserMenu from "./user-menu";
+import CartButton from "./cart-button";
+import GCELogo from "../utils/gce-logo";
+import SearchButton from "./search-button";
+import { AppBar, Box, Container, Toolbar } from "@mui/material";
 
 // -----------------------------------------------------------
 
 interface Props {}
 
 const Navbar: React.FC<Props> = () => {
-    const router = useRouter();
-
     return (
         <AppBar
             elevation={0}
@@ -38,15 +34,9 @@ const Navbar: React.FC<Props> = () => {
                     <NavLinks />
 
                     <Box display={"flex"} flexDirection={"row"} gap={0.5}>
-                        <IconButton>
-                            <CoreIcon.MagnifyingGlass size={24} />
-                        </IconButton>
-
+                        <SearchButton />
                         <UserMenu />
-
-                        <IconButton onClick={() => router.push("/cart")}>
-                            <CoreIcon.ShoppingCart size={24} />
-                        </IconButton>
+                        <CartButton />
                     </Box>
                 </Toolbar>
             </Container>

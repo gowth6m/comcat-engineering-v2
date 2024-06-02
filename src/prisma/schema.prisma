@@ -16,8 +16,9 @@ model Product {
     brand        String
     price        Float
     rating       Float
-    numReviews   Int
-    countInStock Int
+    listingGroup String      @default("none")
+    numReviews   Int         @default(0)
+    countInStock Int         @default(0)
     description  String
     createdAt    DateTime    @default(now())
     updatedAt    DateTime    @updatedAt

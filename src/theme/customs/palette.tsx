@@ -41,11 +41,11 @@ export const grey = {
 };
 
 export const primary = {
-    lighter: colors.orange[200],
-    light: colors.orange[400],
-    main: colors.orange[700],
-    dark: colors.orange[800],
-    darker: colors.orange[900],
+    lighter: "#FDBA9B",
+    light: "#FD9E72",
+    main: "#FC814A",
+    dark: "#FC6722",
+    darker: "#F14F04",
     contrastText: "#F8F8F8",
 };
 

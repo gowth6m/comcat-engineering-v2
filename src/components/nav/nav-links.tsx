@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { List } from "@mui/material";
 import CoreLink from "../core/core-link";

@@ -18,4 +18,12 @@ export default class ProductApiClient {
         return await this.client.get('/all');
     }
 
+    async getHeroProducts(): Promise<AxiosResponse<{
+        bestSellers: Product[],
+        newArrivals: Product[],
+        clearance: Product[]
+    }>> {
+        return await this.client.get('/hero');
+    }
+
 }

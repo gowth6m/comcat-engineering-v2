@@ -22,6 +22,15 @@ export default function ThemeProvider({ children }: Props) {
     const memoizedValue = useMemo(
         () =>
             ({
+                breakpoints: {
+                    values: {
+                        xs: 0,
+                        sm: 640,
+                        md: 768,
+                        lg: 1280,
+                        xl: 1536,
+                    },
+                },
                 palette: {
                     ...palette(themeMode),
                 },

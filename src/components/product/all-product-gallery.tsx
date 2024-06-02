@@ -1,8 +1,11 @@
 "use client";
 
-import ApiClient from "@/services/api-client";
 import React from "react";
 import { useQuery } from "react-query";
+import ApiClient from "@/services/api-client";
+import LoadingTopbar from "../progress-bar/loading-topbar";
+
+// -----------------------------------------------------------
 
 const AllProductGallery = () => {
     const allProducts = useQuery({
@@ -13,9 +16,11 @@ const AllProductGallery = () => {
     });
 
     return (
-        <div>
+        <>
+            {allProducts.isLoading && <LoadingTopbar />}
+            
             <div className="grid grid-cols-5 gap-2">
-                {allProducts.data?.data?.data?.map((product: any) => (
+                {allProducts.data?.data?.data?.map((product) => (
                     <div key={product.id}>
                         <h2>{product.name}</h2>
                         <p>{product.description}</p>
@@ -23,7 +28,7 @@ const AllProductGallery = () => {
                     </div>
                 ))}
             </div>
-        </div>
+        </>
     );
 };
 
