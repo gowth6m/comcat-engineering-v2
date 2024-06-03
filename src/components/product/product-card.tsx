@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, Card, CardMedia, Stack, Typography } from "@mui/material";
+import {
+    Box,
+    Card,
+    CardMedia,
+    Chip,
+    Rating,
+    Stack,
+    Typography,
+} from "@mui/material";
 import toast from "react-hot-toast";
 import { Product } from "@prisma/client";
 import CoreButton from "../core/core-button";
@@ -47,7 +55,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                 height: "100%",
                 display: "flex",
                 flexDirection: "column",
-                paddingY: 1,
+                paddingY: 2,
                 gap: 1,
             }}
             onClick={handleOpenProductDetails}
@@ -66,7 +74,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             />
 
             <Typography
-                variant={"subtitle1"}
+                variant={"subtitle2"}
                 sx={{
                     textAlign: "left",
                     overflow: "hidden",
@@ -74,6 +82,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                     display: "-webkit-box",
                     WebkitLineClamp: 2,
                     WebkitBoxOrient: "vertical",
+                    fontWeight: 600,
                 }}
             >
                 {product.name}
@@ -91,30 +100,38 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                             paddingY: 0.5,
                             paddingX: 1,
                             fontWeight: 700,
+                            fontSize: 12,
                         }}
                     >
                         {`${product.discount}% off`}
                     </Box>
-                    <Typography color={"error"} fontWeight={700}>
+                    <Typography color={"error"} fontWeight={700} fontSize={12}>
                         Limited time deal
                     </Typography>
                 </Stack>
             )}
 
-            <Typography
-                variant={"body2"}
-                color={"text.secondary"}
-                sx={{
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    display: "-webkit-box",
-                    WebkitLineClamp: 3,
-                    WebkitBoxOrient: "vertical",
-                    textAlign: "left",
-                }}
-            >
-                {product.description}
-            </Typography>
+            <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
+                <Rating
+                    name="product-rating"
+                    value={product.rating}
+                    size={"small"}
+                    readOnly
+                    sx={{
+                        mx: 0,
+                    }}
+                />
+
+                <Typography variant={"body2"} color={"text.secondary"}>
+                    {`(${product.numReviews} reviews)`}
+                </Typography>
+            </Stack>
+
+            {/* <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
+                {product.category.map((category, index) => (
+                    <Chip key={index} label={category} size={"small"} />
+                ))}
+            </Stack> */}
 
             <Typography variant={"subtitle1"}>
                 {`£${product.price}`}
@@ -161,7 +178,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
  * Calculate discounted price based on the discount percentage and rounded to 2 decimal places
  */
 const calculateDiscountedPrice = (price: number, discount: number) => {
-    return (price - (price * discount) / 100).toFixed(2);
+    return (price + (price * discount) / 100).toFixed(2);
 };
 
 export default ProductCard;
