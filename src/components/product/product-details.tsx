@@ -1,7 +1,7 @@
-import { Rating, Stack, Typography } from "@mui/material";
-import { Product } from "@prisma/client";
 import React from "react";
+import { Product } from "@prisma/client";
 import CoreButton from "../core/core-button";
+import { Rating, Stack, Typography } from "@mui/material";
 
 // -----------------------------------------------------------
 

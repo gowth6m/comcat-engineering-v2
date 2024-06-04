@@ -1,12 +1,13 @@
 "use client";
 
 import React from "react";
-import { Container, Stack } from "@mui/material";
 import { useQuery } from "react-query";
 import ApiClient from "@/services/api-client";
+import { Container, Stack } from "@mui/material";
+import ProductDetails from "@/components/product/product-details";
 import LoadingTopbar from "@/components/progress-bar/loading-topbar";
 import ProductImageGallery from "@/components/product/product-image-gallery";
-import ProductDetails from "@/components/product/product-details";
+import ProductReviews from "@/components/review/product-reviews";
 
 // -----------------------------------------------------------
 
@@ -18,7 +19,7 @@ export default function ProductPage({
     };
 }) {
     const productQuery = useQuery({
-        queryKey: ["product", params.slug],
+        queryKey: ["getProductBySlug", params.slug],
         queryFn: async () => {
             return await ApiClient.product.getProductBySlug(params.slug);
         },
@@ -49,6 +50,7 @@ export default function ProductPage({
 
                 <ProductDetails product={productQuery.data?.data.data} />
             </Stack>
+            <ProductReviews product={productQuery.data?.data.data} />
         </Container>
     );
 }

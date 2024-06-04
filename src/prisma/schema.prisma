@@ -43,7 +43,7 @@ model User {
 model Order {
     id              String      @id @default(auto()) @map("_id") @db.ObjectId
     user            User        @relation(fields: [userId], references: [id])
-    userId          String      @db.ObjectId
+    userId          String      @unique @db.ObjectId
     orderItems      OrderItem[]
     shippingAddress String
     paymentMethod   String
@@ -62,7 +62,7 @@ model Order {
 model OrderItem {
     id        String  @id @default(auto()) @map("_id") @db.ObjectId
     product   Product @relation(fields: [productId], references: [id])
-    productId String  @db.ObjectId
+    productId String  @unique @db.ObjectId
     name      String
     image     String
     price     Float
@@ -72,14 +72,15 @@ model OrderItem {
 }
 
 model Review {
-    id        String   @id @default(auto()) @map("_id") @db.ObjectId
-    user      User     @relation(fields: [userId], references: [id])
-    userId    String   @db.ObjectId
-    product   Product  @relation(fields: [productId], references: [id])
-    productId String   @db.ObjectId
-    name      String
-    rating    Float
-    comment   String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    user        User     @relation(fields: [userId], references: [id])
+    userId      String   @db.ObjectId
+    email       String
+    product     Product  @relation(fields: [productId], references: [id])
+    productId   String   @unique @db.ObjectId
+    productSlug String   @unique
+    rating      Float
+    comment     String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }

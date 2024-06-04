@@ -1,7 +1,8 @@
 // ----------------------------------------------------------------------
 
 export const publicApiRoutes = [
-    "/api/product"
+    "/api/product",
+    "/api/review",
 ]
 
 export const publicRoutes = [

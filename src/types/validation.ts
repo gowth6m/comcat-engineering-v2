@@ -13,3 +13,9 @@ export const registerSchema = z.object({
     firstName: z.string().min(1),
     lastName: z.string().min(1),
 });
+
+export const reviewSchema = z.object({
+    rating: z.number().int().min(1).max(5),
+    comment: z.string().min(1).max(500),
+    productId: z.string(),
+});
