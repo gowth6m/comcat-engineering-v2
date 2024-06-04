@@ -63,13 +63,13 @@ const authOptions: NextAuthConfig = {
         strategy: "jwt",
     },
     callbacks: {
-        async session({ session, user }) {
-            if (user) {
-                session.user.id = user.id;
-                session.user.firstName = user.firstName;
-                session.user.lastName = user.lastName;
-                session.user.email = user.email;
-                session.user.isAdmin = user.isAdmin;
+        async session({ session, token }) {
+            if (token) {
+                session.user.id = token.id as string;
+                session.user.firstName = token.firstName as string;
+                session.user.lastName = token.lastName as string;
+                session.user.email = token.email as string;
+                session.user.isAdmin = token.isAdmin as boolean;
             }
             return session;
         },
