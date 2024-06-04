@@ -4,6 +4,8 @@ import prisma from "@/prisma";
 import { NextResponse } from "next/server";
 import { ResponseCode } from "@/types/api.type";
 
+export const revalidate = 0;
+
 export async function GET(_req: Request, { params }: { params: { slug: string } }) {
 
     try {
@@ -14,9 +16,6 @@ export async function GET(_req: Request, { params }: { params: { slug: string } 
             }
         });
         return NextResponse.json({ data: data }, {
-            headers: {
-                "Cache-Control": "s-maxage=1, stale-while-revalidate",
-            },
             status: ResponseCode.Success,
         });
     } catch (error) {
