@@ -1,13 +1,5 @@
 import React from "react";
-import {
-    Box,
-    Card,
-    CardMedia,
-    Chip,
-    Rating,
-    Stack,
-    Typography,
-} from "@mui/material";
+import { Box, Card, CardMedia, Rating, Stack, Typography } from "@mui/material";
 import toast from "react-hot-toast";
 import { Product } from "@prisma/client";
 import CoreButton from "../core/core-button";
@@ -44,7 +36,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
      * Function to open product details
      */
     const handleOpenProductDetails = () => {
-        router.push(`/product/${product.id}`);
+        router.push(`/product/${product.slug}`);
     };
 
     return (
@@ -126,12 +118,6 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                     {`(${product.numReviews} reviews)`}
                 </Typography>
             </Stack>
-
-            {/* <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
-                {product.category.map((category, index) => (
-                    <Chip key={index} label={category} size={"small"} />
-                ))}
-            </Stack> */}
 
             <Typography variant={"subtitle1"}>
                 {`£${product.price}`}

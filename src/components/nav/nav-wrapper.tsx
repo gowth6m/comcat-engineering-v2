@@ -1,11 +1,11 @@
-"use server";
-
 import React from "react";
 import Navbar from "./navbar";
 import { Box } from "@mui/material";
-import { auth } from "@/auth";
+import Footer, { FOOTER_HEIGHT } from "../footer/footer";
 
 // ------------------------------------------------------------
+
+export const APPBAR_HEIGHT = 64;
 
 interface Props {
     children: React.ReactNode;
@@ -18,12 +18,17 @@ const NavWrapper = ({ children }: Props) => {
             <Box
                 sx={{
                     height: {
-                        xs: 64,
-                        md: 64,
+                        xs: APPBAR_HEIGHT,
+                        md: APPBAR_HEIGHT,
                     },
                 }}
             />
-            {children}
+            <Box
+                minHeight={`calc(100vh - ${APPBAR_HEIGHT}px - ${FOOTER_HEIGHT}px)`}
+            >
+                {children}
+            </Box>
+            <Footer />
         </>
     );
 };

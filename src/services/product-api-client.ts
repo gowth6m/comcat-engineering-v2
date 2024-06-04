@@ -26,4 +26,10 @@ export default class ProductApiClient {
         return await this.client.get('/hero');
     }
 
+    async getProductBySlug(slug: string): Promise<AxiosResponse<{
+        data: Product
+    }>> {
+        return await this.client.get(`/${slug}`);
+    }
+
 }

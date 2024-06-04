@@ -10,7 +10,7 @@ generator client {
 model Product {
     id           String      @id @default(auto()) @map("_id") @db.ObjectId
     name         String
-    slug         String
+    slug         String      @unique
     category     String[]
     images       String[]
     brand        String

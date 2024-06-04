@@ -1,4 +1,5 @@
 import "@/theme/globals.css";
+import "@/theme/simplebar.css";
 import { auth } from "@/auth";
 import type { Metadata } from "next";
 import Providers from "@/context/providers";

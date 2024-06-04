@@ -11,6 +11,7 @@ export const publicRoutes = [
     "/categories",
     "/services",
     "/contact",
+    "/product/*",
 ];
 
 // ----------------------------------------------------------------------
