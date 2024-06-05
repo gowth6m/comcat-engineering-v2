@@ -3,6 +3,7 @@
 import React from "react";
 import { useCartStore } from "@/stores/cart-store";
 import { Container } from "@mui/material";
+import Column from "@/components/core/column";
 
 // -----------------------------------------------------------
 
@@ -11,8 +12,10 @@ export default function CartPage() {
 
     return (
         <Container>
-            <h1>Cart</h1>
-            <h2>Items in cart: {cart.itemCount}</h2>
+            <Column marginY={4}>
+                <h1>Cart</h1>
+                <h2>Items in cart: {cart.itemCount}</h2>
+            </Column>
         </Container>
     );
 }

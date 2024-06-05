@@ -1,6 +1,6 @@
 import React from "react";
-import Row from "../core/row";
-import Column from "../core/column";
+import Row from "../../core/row";
+import Column from "../../core/column";
 import { Card, Skeleton } from "@mui/material";
 
 // -----------------------------------------------------------

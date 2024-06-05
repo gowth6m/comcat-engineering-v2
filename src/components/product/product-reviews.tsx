@@ -14,6 +14,7 @@ import CoreButton from "../core/core-button";
 import CoreIcon from "../core/core-icon";
 import Row from "../core/row";
 import LoadingTopbar from "../progress-bar/loading-topbar";
+import ProductReviewsSkeleton from "./skeletons/product-reviews-skeleton";
 
 // -----------------------------------------------------------
 
@@ -67,6 +68,24 @@ const ProductReviews: React.FC<Props> = ({ product }) => {
             formik.resetForm();
         },
     });
+
+    if (reviewsQuery.isLoading) {
+        return <ProductReviewsSkeleton />;
+    }
+
+    if (reviewsQuery.isError || !reviewsQuery.data?.data.data) {
+        return (
+            <Column
+                id={"product-reviews"}
+                sx={{
+                    flex: 2,
+                }}
+            >
+                <Typography variant="h6">Reviews</Typography>
+                <Typography variant="body1">Error loading reviews</Typography>
+            </Column>
+        );
+    }
 
     return (
         <>

@@ -5,7 +5,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import Column from "../core/column";
 import ProductSimilarCard from "./product-similar-card";
-import ProductSimilarCardSkeleton from "./product-similar-card-skeleton";
+import ProductSimilarCardSkeleton from "./skeletons/product-similar-card-skeleton";
 
 // -----------------------------------------------------------
 

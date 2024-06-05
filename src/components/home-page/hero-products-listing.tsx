@@ -6,7 +6,7 @@ import ApiClient from "@/services/api-client";
 import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import LoadingTopbar from "../progress-bar/loading-topbar";
 import ProductCard from "../product/product-card";
-import ProductCardSkeleton from "../product/product-card-skeleton";
+import ProductCardSkeleton from "../product/skeletons/product-card-skeleton";
 
 // -----------------------------------------------------------
 
