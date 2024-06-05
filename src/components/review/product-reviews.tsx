@@ -1,14 +1,25 @@
 import ApiClient from "@/services/api-client";
 import { ApiError } from "@/types/api.type";
 import { reviewSchema } from "@/types/validation";
-import { List, ListItem, Rating, Stack, TextField } from "@mui/material";
+import { formatDateTimeFromToday } from "@/utils/format";
+import {
+    Box,
+    List,
+    ListItem,
+    Rating,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { Product } from "@prisma/client";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { toFormikValidationSchema } from "zod-formik-adapter";
+import Column from "../core/column";
 import CoreButton from "../core/core-button";
+import CoreIcon from "../core/core-icon";
+import Row from "../core/row";
 import LoadingTopbar from "../progress-bar/loading-topbar";
 
 // -----------------------------------------------------------
@@ -68,72 +79,116 @@ const ProductReviews: React.FC<Props> = ({ product }) => {
         <>
             {addReview.isLoading && <LoadingTopbar />}
 
-            <form
-                onSubmit={(e) => {
-                    console.log("submitting");
-                    e.preventDefault();
-                    formik.handleSubmit();
-                }}
-                style={{
-                    border: "1px solid",
-                    borderColor: "divider",
-                    borderRadius: "8px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "16px",
-                    padding: "16px",
-                    width: "100%",
-                }}
-            >
-                <Rating
-                    name="simple-controlled"
-                    value={formik.values.rating}
-                    onChange={(_event, newValue) => {
-                        formik.setFieldValue("rating", newValue);
-                    }}
-                />
+            <Column id={"product-reviews"}>
+                {/********************************
+                 * LIST OF REVIEWS
+                 *******************************/}
+                <Column gap={1}>
+                    <Typography variant="h6">
+                        Reviews on this product (
+                        {reviewsQuery.data?.data.data.length})
+                    </Typography>
 
-                <TextField
-                    id="comment"
-                    name="comment"
-                    label="Comment"
-                    value={formik.values.comment}
-                    onChange={formik.handleChange}
-                    multiline
-                    rows={2}
-                    error={
-                        (formik.touched.comment &&
-                            Boolean(formik.errors.comment)) ||
-                        errorMap.some((error) => error.field === "comment")
-                    }
-                    helperText={
-                        (formik.touched.comment && formik.errors.comment) ||
-                        errorMap.find((error) => error.field === "comment")
-                            ?.message
-                    }
-                />
+                    {reviewsQuery.data?.data.data.length === 0 ? (
+                        <Typography variant="body1">
+                            No reviews yet. Be the first to leave a review!
+                        </Typography>
+                    ) : (
+                        <List>
+                            {reviewsQuery.data?.data.data.map((review) => (
+                                <ListItem key={review.id} dense>
+                                    <Row>
+                                        <CoreIcon.UserCircle size={32} />
+                                        <Column gap={0.5}>
+                                            <Row
+                                                alignItems={"center"}
+                                                justifyContent={"space-between"}
+                                                gap={1}
+                                            >
+                                                <Typography variant="subtitle2">
+                                                    {review.userEmail}
+                                                </Typography>
+                                                <Typography variant="caption">
+                                                    {formatDateTimeFromToday(
+                                                        review.createdAt.toString()
+                                                    )}
+                                                </Typography>
+                                            </Row>
+                                            <Rating
+                                                value={review.rating}
+                                                size={"small"}
+                                                readOnly
+                                            />
+                                            <Typography variant="body1">
+                                                {review.comment}
+                                            </Typography>
+                                        </Column>
+                                    </Row>
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
+                </Column>
 
-                <CoreButton
-                    buttonVariant="primary"
-                    onClick={() => {
-                        console.log("submitting");
+                {/********************************
+                 * ADD REVIEW FORM
+                 *******************************/}
+                <Column
+                    component="form"
+                    onSubmit={(e) => {
+                        e.preventDefault();
                         formik.handleSubmit();
                     }}
+                    gap={1}
                 >
-                    Submit
-                </CoreButton>
-            </form>
+                    <Typography variant="h6">Add a review</Typography>
 
-            <List>
-                {reviewsQuery.data?.data.data.map((review) => (
-                    <ListItem key={review.id}>
-                        <Rating value={review.rating} readOnly />
-                        <p>{review.comment}</p>
-                        <p>{review.email}</p>
-                        <p>{review?.createdAt?.toString()}</p>
-                    </ListItem>
-                ))}
-            </List>
+                    <Row alignItems={"center"}>
+                        <Typography variant="body1">
+                            What do you think about this product?
+                        </Typography>
+                        <Rating
+                            name="simple-controlled"
+                            value={formik.values.rating}
+                            onChange={(_event, newValue) => {
+                                formik.setFieldValue("rating", newValue);
+                            }}
+                        />
+                    </Row>
+
+                    <TextField
+                        id="comment"
+                        name="comment"
+                        label="Comment"
+                        value={formik.values.comment}
+                        onChange={formik.handleChange}
+                        multiline
+                        rows={2}
+                        error={
+                            (formik.touched.comment &&
+                                Boolean(formik.errors.comment)) ||
+                            errorMap.some((error) => error.field === "comment")
+                        }
+                        helperText={
+                            (formik.touched.comment && formik.errors.comment) ||
+                            errorMap.find((error) => error.field === "comment")
+                                ?.message
+                        }
+                        placeholder="Write your review here"
+                    />
+
+                    <CoreButton
+                        buttonVariant="primary"
+                        onClick={() => {
+                            console.log("submitting");
+                            formik.handleSubmit();
+                        }}
+                        sx={{ my: 1 }}
+                    >
+                        Submit
+                    </CoreButton>
+                </Column>
+            </Column>
         </>
     );
 };

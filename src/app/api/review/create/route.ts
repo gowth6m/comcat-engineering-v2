@@ -27,7 +27,6 @@ export async function POST(request: Request) {
     }
 
     try {
-        // Parse and validate the request body
         const body = await request.json();
 
         const { rating, comment, productId } =
@@ -59,7 +58,9 @@ export async function POST(request: Request) {
                 { status: ResponseCode.NotFound }
             );
         }
+
         const newRating = (productPrev.rating * productPrev.numReviews + rating) / (productPrev.numReviews + 1);
+
         const product = await prisma.product.update({
             where: {
                 id: productId,
@@ -72,31 +73,14 @@ export async function POST(request: Request) {
             },
         });
 
-
-
-        if (!product) {
-            return NextResponse.json(
-                {
-                    message: "Not found",
-                    errors: [
-                        {
-                            field: "productId",
-                            message: "Product not found",
-                        },
-                    ],
-                },
-                { status: ResponseCode.NotFound }
-            );
-        }
-
         const review = await prisma.review.create({
             data: {
-                rating,
-                comment,
-                productId,
+                rating: rating,
+                comment: comment,
+                productId: productId,
                 productSlug: product.slug,
                 userId: session.user.id,
-                email: session.user.email,
+                userEmail: session.user.email,
             },
         });
 

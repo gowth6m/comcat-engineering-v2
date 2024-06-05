@@ -18,7 +18,7 @@ export type Cart = {
 
 type CartStoreState = {
     cart: Cart;
-    addToCart: (product: Product) => void; // add item to cart
+    addToCart: (product: Product, quantity: number) => void; // add item to cart
     removeFromCart: (productId: string) => void; // reduce quantity by 1 or remove item if quantity is 1
     clearItemFromCart: (productId: string) => void; // remove item from cart
     clearCart: () => void; // remove all items from cart
@@ -38,7 +38,7 @@ export const useCartStore = create<CartStoreState>()(
     persist(
         (set) => ({
             cart: { items: [], itemCount: 0, total: 0 },
-            addToCart: (product) =>
+            addToCart: (product, quantity) =>
                 set((state) => {
                     const existingCartItem = state.cart.items.find(
                         (item) => item.item.id === product.id
@@ -48,13 +48,16 @@ export const useCartStore = create<CartStoreState>()(
                     if (existingCartItem) {
                         updatedItems = state.cart.items.map((item) =>
                             item.item.id === product.id
-                                ? { ...item, quantity: item.quantity + 1 }
+                                ? {
+                                      ...item,
+                                      quantity: item.quantity + quantity,
+                                  }
                                 : item
                         );
                     } else {
                         updatedItems = [
                             ...state.cart.items,
-                            { item: product, quantity: 1 },
+                            { item: product, quantity: quantity },
                         ];
                     }
 

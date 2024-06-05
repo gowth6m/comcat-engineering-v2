@@ -5,6 +5,8 @@ import { Product } from "@prisma/client";
 import CoreButton from "../core/core-button";
 import { useCartStore } from "@/stores/cart-store";
 import { useRouter } from "next/navigation";
+import ProductDiscountLabel from "./product-discount-label";
+import ProductPriceLabel from "./product-price-label";
 
 // -----------------------------------------------------------
 
@@ -27,7 +29,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
 
         if (product.countInStock === 0) return toast.error("Out of stock");
 
-        addToCart(product);
+        addToCart(product, 1);
 
         toast.success("Added to cart");
     };
@@ -80,28 +82,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                 {product.name}
             </Typography>
 
-            {product.discount > 0 && (
-                <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
-                    <Box
-                        sx={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            backgroundColor: "error.main",
-                            color: "error.contrastText",
-                            borderRadius: 0.5,
-                            paddingY: 0.5,
-                            paddingX: 1,
-                            fontWeight: 700,
-                            fontSize: 12,
-                        }}
-                    >
-                        {`${product.discount}% off`}
-                    </Box>
-                    <Typography color={"error"} fontWeight={700} fontSize={12}>
-                        Limited time deal
-                    </Typography>
-                </Stack>
-            )}
+            <ProductDiscountLabel product={product} />
 
             <Stack flexDirection={"row"} alignItems={"center"} gap={1}>
                 <Rating
@@ -119,29 +100,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
                 </Typography>
             </Stack>
 
-            <Typography variant={"subtitle1"}>
-                {`£${product.price}`}
-
-                {product.discount > 0 && (
-                    <Typography
-                        component={"span"}
-                        color={"text.secondary"}
-                        sx={{ mx: 1 }}
-                    >
-                        {`RRP: `}{" "}
-                        <span className="line-through">
-                            {`£${
-                                product.discount > 0
-                                    ? calculateDiscountedPrice(
-                                          product.price,
-                                          product.discount
-                                      )
-                                    : ""
-                            }`}
-                        </span>
-                    </Typography>
-                )}
-            </Typography>
+            <ProductPriceLabel product={product} />
 
             <CoreButton
                 buttonVariant={"primary"}
@@ -158,13 +117,6 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             </CoreButton>
         </Card>
     );
-};
-
-/**
- * Calculate discounted price based on the discount percentage and rounded to 2 decimal places
- */
-const calculateDiscountedPrice = (price: number, discount: number) => {
-    return (price + (price * discount) / 100).toFixed(2);
 };
 
 export default ProductCard;

@@ -55,7 +55,7 @@ export const secondary = {
     main: "#141414",
     dark: "#0A0A0A",
     darker: "#000000",
-    contrastText: "#212B36",
+    contrastText: "#f8f8f8",
 };
 
 export const info = {
@@ -118,7 +118,7 @@ const base = {
     error,
     grey,
     common,
-    divider: alpha(grey[500], 0.3),
+    divider: alpha(grey[500], 0.4),
     action,
 };
 

@@ -20,6 +20,8 @@ const ProductImageGallery: React.FC<Props> = ({ product }) => {
             sx={{
                 flexDirection: "row",
                 gap: 1,
+                height: 300,
+                overflow: "hidden",
             }}
         >
             {/* Gallery */}
@@ -69,8 +71,8 @@ const ProductImageGallery: React.FC<Props> = ({ product }) => {
                 options={{
                     type: "fade",
                     heightRatio: 0.5,
-                    pagination: true,
-                    arrows: true,
+                    pagination: product.images.length > 1,
+                    arrows: product.images.length > 1,
                     autoWidth: true,
                     focus: "center",
                     height: 300,

@@ -10,3 +10,7 @@ input:-webkit-autofill:focus {
   background-color: transparent !important;
   background-clip: text;
 }
+
+html {
+  scroll-behavior: smooth;
+}
