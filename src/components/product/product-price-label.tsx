@@ -1,15 +1,23 @@
-import { Typography } from "@mui/material";
+import { Typography, TypographyProps } from "@mui/material";
 import { Product } from "@prisma/client";
 import React from "react";
 
-interface Props {
+interface Props extends TypographyProps {
     product: Product;
     textVariant?: "h5" | "h6" | "subtitle1" | "subtitle2" | "body1";
 }
 
-const ProductPriceLabel: React.FC<Props> = ({ product, textVariant }) => {
+const ProductPriceLabel: React.FC<Props> = ({
+    product,
+    textVariant,
+    ...props
+}) => {
     return (
-        <Typography variant={textVariant ?? "subtitle1"}>
+        <Typography
+            variant={textVariant ?? "subtitle1"}
+            textAlign={props.textAlign ?? "left"}
+            {...props}
+        >
             {`£${product.price}`}
 
             {product.discount > 0 && (

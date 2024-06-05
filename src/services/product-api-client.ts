@@ -38,4 +38,10 @@ export default class ProductApiClient {
         return await this.client.get(`/${slug}`);
     }
 
+    async getSimilarProducts(slug: string): Promise<AxiosResponse<{
+        data: Product[]
+    }>> {
+        return await this.client.get(`/similar/${slug}`);
+    }
+
 }

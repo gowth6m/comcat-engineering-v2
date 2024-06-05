@@ -2,14 +2,7 @@ import ApiClient from "@/services/api-client";
 import { ApiError } from "@/types/api.type";
 import { reviewSchema } from "@/types/validation";
 import { formatDateTimeFromToday } from "@/utils/format";
-import {
-    Box,
-    List,
-    ListItem,
-    Rating,
-    TextField,
-    Typography,
-} from "@mui/material";
+import { List, ListItem, Rating, TextField, Typography } from "@mui/material";
 import { Product } from "@prisma/client";
 import { useFormik } from "formik";
 import React, { useState } from "react";
@@ -79,57 +72,12 @@ const ProductReviews: React.FC<Props> = ({ product }) => {
         <>
             {addReview.isLoading && <LoadingTopbar />}
 
-            <Column id={"product-reviews"}>
-                {/********************************
-                 * LIST OF REVIEWS
-                 *******************************/}
-                <Column gap={1}>
-                    <Typography variant="h6">
-                        Reviews on this product (
-                        {reviewsQuery.data?.data.data.length})
-                    </Typography>
-
-                    {reviewsQuery.data?.data.data.length === 0 ? (
-                        <Typography variant="body1">
-                            No reviews yet. Be the first to leave a review!
-                        </Typography>
-                    ) : (
-                        <List>
-                            {reviewsQuery.data?.data.data.map((review) => (
-                                <ListItem key={review.id} dense>
-                                    <Row>
-                                        <CoreIcon.UserCircle size={32} />
-                                        <Column gap={0.5}>
-                                            <Row
-                                                alignItems={"center"}
-                                                justifyContent={"space-between"}
-                                                gap={1}
-                                            >
-                                                <Typography variant="subtitle2">
-                                                    {review.userEmail}
-                                                </Typography>
-                                                <Typography variant="caption">
-                                                    {formatDateTimeFromToday(
-                                                        review.createdAt.toString()
-                                                    )}
-                                                </Typography>
-                                            </Row>
-                                            <Rating
-                                                value={review.rating}
-                                                size={"small"}
-                                                readOnly
-                                            />
-                                            <Typography variant="body1">
-                                                {review.comment}
-                                            </Typography>
-                                        </Column>
-                                    </Row>
-                                </ListItem>
-                            ))}
-                        </List>
-                    )}
-                </Column>
-
+            <Column
+                id={"product-reviews"}
+                sx={{
+                    flex: 2,
+                }}
+            >
                 {/********************************
                  * ADD REVIEW FORM
                  *******************************/}
@@ -187,6 +135,56 @@ const ProductReviews: React.FC<Props> = ({ product }) => {
                     >
                         Submit
                     </CoreButton>
+                </Column>
+
+                {/********************************
+                 * LIST OF REVIEWS
+                 *******************************/}
+                <Column gap={1}>
+                    <Typography variant="h6">
+                        Reviews on this product (
+                        {reviewsQuery.data?.data.data.length})
+                    </Typography>
+
+                    {reviewsQuery.data?.data.data.length === 0 ? (
+                        <Typography variant="body1">
+                            No reviews yet. Be the first to leave a review!
+                        </Typography>
+                    ) : (
+                        <List>
+                            {reviewsQuery.data?.data.data.map((review) => (
+                                <ListItem key={review.id} dense>
+                                    <Row>
+                                        <CoreIcon.UserCircle size={32} />
+                                        <Column gap={0.5}>
+                                            <Row
+                                                alignItems={"center"}
+                                                justifyContent={"space-between"}
+                                                gap={1}
+                                            >
+                                                <Typography variant="subtitle2">
+                                                    {review.userEmail}
+                                                </Typography>
+                                                <Typography variant="caption">
+                                                    {formatDateTimeFromToday(
+                                                        review.createdAt.toString()
+                                                    )}
+                                                </Typography>
+                                            </Row>
+                                            <Rating
+                                                value={review.rating}
+                                                size={"small"}
+                                                readOnly
+                                            />
+                                            <Typography variant="body1">
+                                                {review.comment}
+                                            </Typography>
+                                        </Column>
+                                    </Row>
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
                 </Column>
             </Column>
         </>

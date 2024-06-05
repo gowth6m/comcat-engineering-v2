@@ -13,6 +13,9 @@ export async function GET(_req: Request, { params }: { params: { slug: string } 
         const data = await prisma.review.findMany({
             where: {
                 productSlug: params.slug,
+            },
+            orderBy: {
+                createdAt: 'desc',
             }
         });
         return NextResponse.json({ data: data }, {

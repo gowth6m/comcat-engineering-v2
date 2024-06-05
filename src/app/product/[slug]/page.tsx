@@ -11,6 +11,8 @@ import ProductReviews from "@/components/review/product-reviews";
 import Row from "@/components/core/row";
 import Column from "@/components/core/column";
 import Spacer from "@/components/core/spacer";
+import ProductSimilarProductsList from "@/components/product/product-similar-products-list";
+import ProductActions from "@/components/product/product-actions";
 
 // -----------------------------------------------------------
 
@@ -36,17 +38,25 @@ export default function ProductPage({
     return (
         <Container>
             <Column marginY={4}>
-                <Row>
+                <Row gap={4}>
                     <ProductImageGallery
                         product={productQuery.data?.data.data}
                     />
 
                     <ProductDetails product={productQuery.data?.data.data} />
+
+                    <ProductActions product={productQuery.data?.data.data} />
                 </Row>
 
                 <Divider flexItem />
 
-                <ProductReviews product={productQuery.data?.data.data} />
+                <Row gap={4}>
+                    <ProductReviews product={productQuery.data?.data.data} />
+
+                    <ProductSimilarProductsList
+                        product={productQuery.data?.data.data}
+                    />
+                </Row>
             </Column>
 
             <Spacer height={4} />
