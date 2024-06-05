@@ -22,6 +22,7 @@ type CartStoreState = {
     removeFromCart: (productId: string) => void; // reduce quantity by 1 or remove item if quantity is 1
     clearItemFromCart: (productId: string) => void; // remove item from cart
     clearCart: () => void; // remove all items from cart
+    setCartItemQuantity: (productId: string, quantity: number) => void; // set quantity of item in cart
 };
 
 /**
@@ -134,6 +135,32 @@ export const useCartStore = create<CartStoreState>()(
             clearCart: () =>
                 set({
                     cart: { items: [], itemCount: 0, total: 0 },
+                }),
+            setCartItemQuantity: (productId, quantity) =>
+                set((state) => {
+                    const updatedItems = state.cart.items.map((item) =>
+                        item.item.id === productId
+                            ? { ...item, quantity: quantity }
+                            : item
+                    );
+
+                    const updatedItemCount = updatedItems.reduce(
+                        (count, item) => count + item.quantity,
+                        0
+                    );
+
+                    const updatedTotal = updatedItems.reduce(
+                        (sum, item) => sum + item.item.price * item.quantity,
+                        0
+                    );
+
+                    return {
+                        cart: {
+                            items: updatedItems,
+                            itemCount: updatedItemCount,
+                            total: updatedTotal,
+                        },
+                    };
                 }),
         }),
         {

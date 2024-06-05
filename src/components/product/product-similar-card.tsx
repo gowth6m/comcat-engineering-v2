@@ -6,6 +6,7 @@ import ProductDiscountLabel from "./product-discount-label";
 import ProductPriceLabel from "./product-price-label";
 import Row from "../core/row";
 import Column from "../core/column";
+
 interface Props {
     product: Product;
 }

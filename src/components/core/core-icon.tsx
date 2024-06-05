@@ -38,6 +38,7 @@ import {
     ShoppingCart,
     User,
     MapPin,
+    Trash,
 } from "phosphor-react";
 
 interface CoreIconType {
@@ -83,6 +84,7 @@ const CoreIcon: CoreIconType = {
     ShoppingCart,
     User,
     MapPin,
+    Trash,
 };
 
 export default CoreIcon;
