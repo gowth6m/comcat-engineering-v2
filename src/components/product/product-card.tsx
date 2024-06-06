@@ -22,15 +22,21 @@ const ProductCard: React.FC<Props> = ({ product }) => {
      * Function to add product to cart
      */
     const handleAddToCart = () => {
-        const item = cart.items.find((item) => item.item.id === product.id);
+        const itemInCart = cart.items.find(
+            (item) => item.item.id === product.id
+        );
 
-        if (item && item.quantity === product.countInStock)
-            return toast.error("Item limit reached");
+        if (product.countInStock === 0) {
+            toast.error("Out of stock");
+            return;
+        }
 
-        if (product.countInStock === 0) return toast.error("Out of stock");
+        if (itemInCart && itemInCart.quantity >= product.countInStock) {
+            toast.error("Item limit reached");
+            return;
+        }
 
-        addToCart(product, 1);
-
+        addToCart(product, itemInCart ? itemInCart.quantity + 1 : 1);
         toast.success("Added to cart");
     };
 

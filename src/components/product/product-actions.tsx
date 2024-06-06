@@ -22,19 +22,20 @@ const ProductActions: React.FC<Props> = ({ product }) => {
     const { addToCart, cart } = useCartStore();
 
     const handleAddToCart = () => {
-        const item = cart.items.find((item) => item.item.id === product.id);
+        const itemInCart = cart.items.find(
+            (item) => item.item.id === product.id
+        );
+        const newQuantity = itemInCart
+            ? itemInCart.quantity + quantity
+            : quantity;
 
-        if (item && item.quantity === product.countInStock) {
-            return toast.error("Item limit reached");
+        if (newQuantity > product.countInStock) {
+            toast.error("Out of stock");
+            return;
         }
 
-        if (product.countInStock === 0) {
-            return toast.error("Out of stock");
-        }
-
-        addToCart(product, quantity);
+        addToCart(product, newQuantity);
         toast.success("Added to cart");
-
         router.push("/cart");
     };
 
