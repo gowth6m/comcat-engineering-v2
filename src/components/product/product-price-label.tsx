@@ -1,3 +1,4 @@
+import { formatAmount } from "@/utils/format";
 import { Typography, TypographyProps } from "@mui/material";
 import { Product } from "@prisma/client";
 import React from "react";
@@ -18,7 +19,7 @@ const ProductPriceLabel: React.FC<Props> = ({
             textAlign={props.textAlign ?? "left"}
             {...props}
         >
-            {`£${product.price}`}
+            {formatAmount(product.price)}
 
             {product.discount > 0 && (
                 <Typography

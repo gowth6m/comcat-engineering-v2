@@ -1,4 +1,5 @@
 import { useCartStore } from "@/stores/cart-store";
+import { formatAmount } from "@/utils/format";
 import { Typography, Select, MenuItem } from "@mui/material";
 import { Product } from "@prisma/client";
 import { useRouter } from "next/navigation";
@@ -57,7 +58,7 @@ const ProductActions: React.FC<Props> = ({ product }) => {
                     Price
                 </Typography>
                 <Typography variant={"subtitle1"}>
-                    {`£${product.price}`}
+                    {formatAmount(product.price)}
                 </Typography>
             </Row>
 

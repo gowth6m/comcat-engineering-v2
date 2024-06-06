@@ -59,6 +59,7 @@ const CartItem: React.FC<Props> = ({ item, qty }) => {
                     <Row justifyContent={"space-between"}>
                         <Column gap={1}>
                             <Typography
+                                component={Link}
                                 variant={"subtitle1"}
                                 sx={{
                                     textAlign: "left",
@@ -68,7 +69,14 @@ const CartItem: React.FC<Props> = ({ item, qty }) => {
                                     WebkitLineClamp: 2,
                                     WebkitBoxOrient: "vertical",
                                     fontWeight: 500,
+                                    color: "text.primary",
+                                    textDecoration: "none",
+                                    cursor: "pointer",
+                                    "&:hover": {
+                                        textDecoration: "underline",
+                                    },
                                 }}
+                                href={`/product/${item.slug}`}
                             >
                                 {item.name}
                             </Typography>

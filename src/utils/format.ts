@@ -30,3 +30,16 @@ export const formatDateTimeFromToday = (timestamp: string): string => {
 export const removeDashFromString = (str: string): string => {
     return str.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 }
+
+/**
+ * Format a number to a currency string in GBP
+ * 
+ * @param amount The amount to format
+ * @returns A formatted string of the amount in GBP
+ */
+export const formatAmount = (amount: number, currency?: string): string => {
+    return new Intl.NumberFormat("en-GB", {
+        style: "currency",
+        currency: currency ?? "GBP",
+    }).format(amount);
+}

@@ -1,9 +1,9 @@
-import { Typography } from "@mui/material";
 import React from "react";
+import Row from "../core/row";
 import Column from "../core/column";
 import CoreIcon from "../core/core-icon";
 import CoreLink from "../core/core-link";
-import Row from "../core/row";
+import { Typography } from "@mui/material";
 import ProductContactInfo from "./product-contact-info";
 
 // -----------------------------------------------------------
