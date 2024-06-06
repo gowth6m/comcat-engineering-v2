@@ -38,7 +38,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
      * Function to open product details
      */
     const handleOpenProductDetails = () => {
-        router.push(`/product/${product.slug}`);
+        router.push(`/product/${product.slug}`, { scroll: true });
     };
 
     return (
