@@ -17,6 +17,7 @@ import { useCartStore } from "@/stores/cart-store";
 import { Product } from "@prisma/client";
 import CoreIcon from "../core/core-icon";
 import CoreButton from "../core/core-button";
+import toast from "react-hot-toast";
 
 // -----------------------------------------------------------
 
@@ -30,6 +31,13 @@ const CartItem: React.FC<Props> = ({ item, qty }) => {
 
     const handleQuantityChange = (value: number) => {
         setCartItemQuantity(item.id, value);
+    };
+
+    const handleShare = () => {
+        navigator.clipboard.writeText(
+            window.location.origin + `/product/${item.slug}`
+        );
+        toast.success("Link copied to clipboard");
     };
 
     return (
@@ -57,7 +65,7 @@ const CartItem: React.FC<Props> = ({ item, qty }) => {
                 />
                 <Column gap={1}>
                     <Row justifyContent={"space-between"}>
-                        <Column gap={1}>
+                        <Column gap={0.5}>
                             <Typography
                                 component={Link}
                                 variant={"subtitle1"}
@@ -68,7 +76,7 @@ const CartItem: React.FC<Props> = ({ item, qty }) => {
                                     display: "-webkit-box",
                                     WebkitLineClamp: 2,
                                     WebkitBoxOrient: "vertical",
-                                    fontWeight: 500,
+                                    fontWeight: 550,
                                     color: "text.primary",
                                     textDecoration: "none",
                                     cursor: "pointer",
@@ -80,6 +88,21 @@ const CartItem: React.FC<Props> = ({ item, qty }) => {
                             >
                                 {item.name}
                             </Typography>
+
+                            <Row>
+                                <Typography
+                                    variant={"body2"}
+                                    color={
+                                        item.countInStock > 0
+                                            ? "success.main"
+                                            : "text.secondary"
+                                    }
+                                >
+                                    {item.countInStock > 0
+                                        ? `In stock`
+                                        : `Out of stock`}
+                                </Typography>
+                            </Row>
 
                             <Row alignItems={"center"}>
                                 <Select
@@ -141,7 +164,7 @@ const CartItem: React.FC<Props> = ({ item, qty }) => {
                                     sx={{
                                         cursor: "pointer",
                                     }}
-                                    onClick={() => {}}
+                                    onClick={handleShare}
                                 >
                                     Share
                                 </Link>
@@ -153,7 +176,11 @@ const CartItem: React.FC<Props> = ({ item, qty }) => {
                                 product={item}
                                 variant={"cart"}
                             />
-                            <ProductPriceLabel product={item} variant={"h6"} />
+                            <ProductPriceLabel
+                                product={item}
+                                variant={"h6"}
+                                labelVariant={"cart"}
+                            />
                         </Column>
                     </Row>
                 </Column>

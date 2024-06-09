@@ -3,6 +3,9 @@
 export const publicApiRoutes = [
     "/api/product",
     "/api/review",
+    "/api/category",
+    "/api/promocode",
+    "/api/settings",
 ]
 
 export const publicRoutes = [

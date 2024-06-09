@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client"
+import { Product, PromoCode } from "@prisma/client"
 
 export type CartItem = {
     item: Product;
@@ -9,4 +9,5 @@ export type Cart = {
     items: CartItem[];
     itemCount: number;
     total: number;
+    promoCode: PromoCode | null;
 }

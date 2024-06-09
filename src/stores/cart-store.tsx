@@ -1,6 +1,6 @@
 import { createJSONStorage, persist } from "zustand/middleware";
+import { Product, PromoCode } from "@prisma/client";
 import { AppConfig } from "@/configs/app-config";
-import { Product } from "@prisma/client";
 import { create } from "zustand";
 
 // -----------------------------------------------------------
@@ -14,6 +14,8 @@ export type Cart = {
     items: CartItem[];
     itemCount: number;
     total: number;
+    totalBeforePromo: number;
+    promoCode: PromoCode | null;
 };
 
 type CartStoreState = {
@@ -23,6 +25,28 @@ type CartStoreState = {
     clearItemFromCart: (productId: string) => void; // remove item from cart
     clearCart: () => void; // remove all items from cart
     setCartItemQuantity: (productId: string, quantity: number) => void; // set quantity of item in cart
+    setPromoCode: (promoCode: PromoCode | null) => void; // set promo code
+};
+
+/**
+ * Calculate total price of items in cart after applying promo code
+ * @param items - CartItem[]
+ * @param promoCode - PromoCode | null
+ * @returns number
+ */
+const calculateTotal = (
+    items: CartItem[],
+    promoCode: PromoCode | null,
+    withoutPromo?: boolean
+) => {
+    let total = items.reduce(
+        (sum, item) => sum + item.item.price * item.quantity,
+        0
+    );
+    if (promoCode && !withoutPromo) {
+        total = total - (promoCode.discount / 100) * total;
+    }
+    return total;
 };
 
 /**
@@ -32,13 +56,21 @@ type CartStoreState = {
  * - removeFromCart: (productId: string) => void - reduce quantity by 1 or remove item if quantity is 1
  * - clearItemFromCart: (productId: string) => void - remove item from cart
  * - clearCart: () => void - remove all items from cart
+ * - setCartItemQuantity: (productId: string, quantity: number) => void - set quantity of item in cart
+ * - setPromoCode: (promoCode: PromoCode | null) => void - set promo code
  *
  * @returns CartStoreState
  */
 export const useCartStore = create<CartStoreState>()(
     persist(
         (set) => ({
-            cart: { items: [], itemCount: 0, total: 0 },
+            cart: {
+                items: [],
+                itemCount: 0,
+                total: 0,
+                totalBeforePromo: 0,
+                promoCode: null,
+            },
             addToCart: (product, quantity) =>
                 set((state) => {
                     const existingCartItem = state.cart.items.find(
@@ -67,9 +99,15 @@ export const useCartStore = create<CartStoreState>()(
                         0
                     );
 
-                    const updatedTotal = updatedItems.reduce(
-                        (sum, item) => sum + item.item.price * item.quantity,
-                        0
+                    const updatedTotal = calculateTotal(
+                        updatedItems,
+                        state.cart.promoCode
+                    );
+
+                    const updatedTotalBeforePromo = calculateTotal(
+                        updatedItems,
+                        state.cart.promoCode,
+                        true
                     );
 
                     return {
@@ -77,6 +115,8 @@ export const useCartStore = create<CartStoreState>()(
                             items: updatedItems,
                             itemCount: updatedItemCount,
                             total: updatedTotal,
+                            totalBeforePromo: updatedTotalBeforePromo,
+                            promoCode: state.cart.promoCode,
                         },
                     };
                 }),
@@ -95,9 +135,15 @@ export const useCartStore = create<CartStoreState>()(
                         0
                     );
 
-                    const updatedTotal = updatedItems.reduce(
-                        (sum, item) => sum + item.item.price * item.quantity,
-                        0
+                    const updatedTotal = calculateTotal(
+                        updatedItems,
+                        state.cart.promoCode
+                    );
+
+                    const updatedTotalBeforePromo = calculateTotal(
+                        updatedItems,
+                        state.cart.promoCode,
+                        true
                     );
 
                     return {
@@ -105,6 +151,8 @@ export const useCartStore = create<CartStoreState>()(
                             items: updatedItems,
                             itemCount: updatedItemCount,
                             total: updatedTotal,
+                            totalBeforePromo: updatedTotalBeforePromo,
+                            promoCode: state.cart.promoCode,
                         },
                     };
                 }),
@@ -119,9 +167,15 @@ export const useCartStore = create<CartStoreState>()(
                         0
                     );
 
-                    const updatedTotal = updatedItems.reduce(
-                        (sum, item) => sum + item.item.price * item.quantity,
-                        0
+                    const updatedTotal = calculateTotal(
+                        updatedItems,
+                        state.cart.promoCode
+                    );
+
+                    const updatedTotalBeforePromo = calculateTotal(
+                        updatedItems,
+                        state.cart.promoCode,
+                        true
                     );
 
                     return {
@@ -129,12 +183,20 @@ export const useCartStore = create<CartStoreState>()(
                             items: updatedItems,
                             itemCount: updatedItemCount,
                             total: updatedTotal,
+                            totalBeforePromo: updatedTotalBeforePromo,
+                            promoCode: state.cart.promoCode,
                         },
                     };
                 }),
             clearCart: () =>
                 set({
-                    cart: { items: [], itemCount: 0, total: 0 },
+                    cart: {
+                        items: [],
+                        itemCount: 0,
+                        total: 0,
+                        totalBeforePromo: 0,
+                        promoCode: null,
+                    },
                 }),
             setCartItemQuantity: (productId, quantity) =>
                 set((state) => {
@@ -149,9 +211,15 @@ export const useCartStore = create<CartStoreState>()(
                         0
                     );
 
-                    const updatedTotal = updatedItems.reduce(
-                        (sum, item) => sum + item.item.price * item.quantity,
-                        0
+                    const updatedTotal = calculateTotal(
+                        updatedItems,
+                        state.cart.promoCode
+                    );
+
+                    const updatedTotalBeforePromo = calculateTotal(
+                        updatedItems,
+                        state.cart.promoCode,
+                        true
                     );
 
                     return {
@@ -159,6 +227,22 @@ export const useCartStore = create<CartStoreState>()(
                             items: updatedItems,
                             itemCount: updatedItemCount,
                             total: updatedTotal,
+                            totalBeforePromo: updatedTotalBeforePromo,
+                            promoCode: state.cart.promoCode,
+                        },
+                    };
+                }),
+            setPromoCode: (promoCode) =>
+                set((state) => {
+                    const updatedTotal = calculateTotal(
+                        state.cart.items,
+                        promoCode
+                    );
+                    return {
+                        cart: {
+                            ...state.cart,
+                            total: updatedTotal,
+                            promoCode: promoCode,
                         },
                     };
                 }),

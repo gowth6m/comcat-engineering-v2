@@ -19,3 +19,15 @@ export const reviewSchema = z.object({
     comment: z.string().max(500).optional(),
     productId: z.string(),
 });
+
+export const promoCodeSchema = z.object({
+    code: z.string(),
+    discount: z.number().int().min(1).max(100),
+});
+
+export const settingSchema = z.object({
+    name: z.string(),
+    deliveryCost: z.number(),
+    freeDeliveryThreshold: z.number(),
+    taxRate: z.number(),
+});

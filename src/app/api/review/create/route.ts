@@ -95,8 +95,6 @@ export async function POST(request: Request) {
             },
         });
     } catch (error) {
-        console.error(error);
-
         if (error instanceof z.ZodError) {
             console.error(error.errors);
             return NextResponse.json(

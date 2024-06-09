@@ -84,3 +84,21 @@ model Review {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 }
+
+model PromoCode {
+    id        String   @id @default(auto()) @map("_id") @db.ObjectId
+    code      String   @unique
+    discount  Float
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Setting {
+    id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+    name                  String   @unique
+    deliveryCost          Float    @default(0)
+    taxRate               Float    @default(0)
+    freeDeliveryThreshold Float    @default(0)
+    createdAt             DateTime @default(now())
+    updatedAt             DateTime @updatedAt
+}

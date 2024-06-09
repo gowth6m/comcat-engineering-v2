@@ -8,12 +8,21 @@ import CartItem from "@/components/cart/cart-item";
 import { Container, Divider, Typography } from "@mui/material";
 import EmptyCartView from "@/components/cart/empty-cart-view";
 import { formatAmount } from "@/utils/format";
-import { Cart } from "@/types/cart.type";
+import CartSummary from "@/components/cart/cart-summary";
+import { calculateSaving } from "@/utils/cart";
+import { useQuery } from "react-query";
+import ApiClient from "@/services/api-client";
+import LoadingTopbar from "@/components/progress-bar/loading-topbar";
 
 // -----------------------------------------------------------
 
 export default function CartPage() {
     const { cart } = useCartStore();
+
+    const settings = useQuery({
+        queryKey: "settings",
+        queryFn: () => ApiClient.settings.get(),
+    });
 
     if (cart.itemCount === 0) {
         return <EmptyCartView />;
@@ -21,28 +30,42 @@ export default function CartPage() {
 
     return (
         <Container>
-            <Row gap={4}>
-                <Column marginY={4} flex={3}>
+            {settings.isLoading && <LoadingTopbar />}
+            <Row gap={6}>
+                {/*
+                 * LEFT COLUMN (Cart items)
+                 */}
+                <Column marginY={4} flex={4}>
                     <Typography variant="h4">{`You have ${cart.itemCount} items in your cart`}</Typography>
 
-                    {cart.items.map((item) => (
-                        <CartItem
-                            key={item.item.id}
-                            item={item.item}
-                            qty={item.quantity}
-                        />
-                    ))}
-
                     <Divider flexItem />
+
+                    {cart.items.map((item) => (
+                        <React.Fragment key={item.item.id}>
+                            <CartItem
+                                key={item.item.id}
+                                item={item.item}
+                                qty={item.quantity}
+                            />
+                            <Divider flexItem />
+                        </React.Fragment>
+                    ))}
 
                     <Column gap={0.5}>
                         <Row
                             justifyContent={"space-between"}
                             alignItems={"center"}
                         >
-                            <Typography variant="h5">Subtotal</Typography>
+                            <Typography variant="h5">{`Subtotal (${cart.itemCount} item)`}</Typography>
                             <Typography variant="h5">
-                                {formatAmount(cart.total)}
+                                <Typography
+                                    variant="caption"
+                                    color={"text.secondary"}
+                                    sx={{ marginRight: 0.5 }}
+                                >
+                                    {`(incl. VAT)`}
+                                </Typography>{" "}
+                                {formatAmount(cart.totalBeforePromo)}
                             </Typography>
                         </Row>
 
@@ -60,44 +83,10 @@ export default function CartPage() {
                 </Column>
 
                 {/*
-                 * RIGHT COLUMN
+                 * RIGHT COLUMN (Cart summary)
                  */}
-                <Column
-                    marginY={4}
-                    flex={1}
-                    sx={{
-                        backgroundColor: "secondary.light",
-                        color: "secondary.contrastText",
-                        borderRadius: 1,
-                        padding: 2,
-                    }}
-                >
-                    <Typography variant="h4">Cart summary</Typography>
-                    <Typography variant="body1">
-                        Total Items: {cart.itemCount}
-                    </Typography>
-                    <Typography variant="body1">
-                        Total Price: {formatAmount(cart.total)}
-                    </Typography>
-                </Column>
+                <CartSummary settings={settings?.data?.data.data ?? null} />
             </Row>
         </Container>
     );
 }
-
-const calculateSaving = (cart: Cart) => {
-    const priceAfterDiscount = cart.items.reduce((acc, cartItem) => {
-        return acc + cartItem.item.price * cartItem.quantity;
-    }, 0);
-
-    const priceBeforeDiscount = cart.items.reduce((acc, cartItem) => {
-        return (
-            acc +
-            cartItem.item.price *
-                (cartItem.item.discount / 100 + 1) *
-                cartItem.quantity
-        );
-    }, 0);
-
-    return formatAmount(priceBeforeDiscount - priceAfterDiscount);
-};

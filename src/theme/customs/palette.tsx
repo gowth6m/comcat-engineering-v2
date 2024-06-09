@@ -70,7 +70,7 @@ export const info = {
 export const success = {
     lighter: "#D3FCD2",
     light: "#77ED8B",
-    main: "#22C55E",
+    main: "#008F00",
     dark: "#118D57",
     darker: "#065E49",
     contrastText: "#ffffff",
@@ -134,8 +134,8 @@ export function palette(mode: "light" | "dark") {
             disabled: grey[500],
         },
         background: {
-            paper: grey[300],
-            default: grey[300],
+            paper: grey[100],
+            default: grey[100],
             neutral: alpha(grey[500], 0.12),
         },
         action: {
