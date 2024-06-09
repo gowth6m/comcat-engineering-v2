@@ -105,7 +105,7 @@ const UserMenu: React.FC<Props> = () => {
                 anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                 disableScrollLock
             >
-                {session ? (
+                {session === null ? (
                     <div>
                         <MenuItem onClick={() => handleRoute("/profile")}>
                             <ListItemIcon>
