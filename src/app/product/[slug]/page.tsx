@@ -18,6 +18,7 @@ import ProductActionsSkeleton from "@/components/product/skeletons/product-actio
 import ProductReviewsSkeleton from "@/components/product/skeletons/product-reviews-skeleton";
 import ProductImageGallerySkeleton from "@/components/product/skeletons/product-image-gallery-skeleton";
 import ProductSimilarProductsListSkeleton from "@/components/product/skeletons/product-similar-products-list-skeleton";
+import ProductHeaderBreadcrumb from "@/components/product/product-header-breadcrumb";
 
 // -----------------------------------------------------------
 
@@ -44,7 +45,11 @@ export default function ProductPage({ params }: Props) {
 
     return (
         <Container>
-            <Column marginY={4}>
+            <Column margin={2}>
+                <ProductHeaderBreadcrumb
+                    product={productQuery.data?.data.data}
+                />
+
                 <Row gap={4}>
                     <ProductImageGallery
                         product={productQuery.data?.data.data}
@@ -73,7 +78,8 @@ export default function ProductPage({ params }: Props) {
 const SkeletalPage = () => {
     return (
         <Container>
-            <Column marginY={4}>
+            <Column marginY={2}>
+                <ProductHeaderBreadcrumb product={null} />
                 <Row gap={4}>
                     <ProductImageGallerySkeleton />
                     <ProductDetailsSkeleton />

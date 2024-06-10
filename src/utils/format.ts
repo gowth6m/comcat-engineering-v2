@@ -43,3 +43,13 @@ export const formatAmount = (amount: number, currency?: string): string => {
         currency: currency ?? "GBP",
     }).format(amount);
 }
+
+/**
+ * Capitalize the first letter of a string
+ * 
+ * @param str The string to format
+ * @returns The string with the first letter capitalized
+ */
+export const firstLetterUppercase = (str: string): string => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}

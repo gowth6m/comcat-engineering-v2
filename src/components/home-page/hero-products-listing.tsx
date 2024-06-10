@@ -3,9 +3,9 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import ApiClient from "@/services/api-client";
-import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import LoadingTopbar from "../progress-bar/loading-topbar";
 import ProductCard from "../product/product-card";
+import LoadingTopbar from "../progress-bar/loading-topbar";
+import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import ProductCardSkeleton from "../product/skeletons/product-card-skeleton";
 
 // -----------------------------------------------------------
@@ -68,13 +68,13 @@ const HeroProductsListing = () => {
                 </ToggleButtonGroup>
 
                 {productsListing.isLoading ? (
-                    <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+                    <div className="grid grid-cols-3 lg:grid-cols-6 gap-4 w-full">
                         {Array.from({ length: 15 }).map((_, index) => (
                             <ProductCardSkeleton key={index} />
                         ))}
                     </div>
                 ) : (
-                    <div className="grid grid-cols-3 lg:grid-cols-5 gap-4 w-full">
+                    <div className="grid grid-cols-3 lg:grid-cols-6 gap-4 w-full">
                         {productsListing.data?.data[view].map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
