@@ -1,6 +1,7 @@
 import { auth } from "@/auth"
 import { NextResponse } from "next/server";
 import { apiAuthPrefix, authRoutes, defaultLoginRedirect, publicApiRoutes, publicRoutes } from "./routes/paths";
+import { ResponseCode } from "./types/api.type";
 
 export default auth((req) => {
     const pathname = req.nextUrl.pathname;
@@ -31,7 +32,16 @@ export default auth((req) => {
             return NextResponse.next();
         }
         if (!isLoggedIn) {
-            return NextResponse.redirect(new URL("/login", req.nextUrl.origin).toString());
+            return NextResponse.json({
+                errors: [
+                    {
+                        field: null,
+                        message: "Unauthorized access",
+                    },
+                ]
+            }, {
+                status: ResponseCode.Unauthorized,
+            });
         }
     }
 

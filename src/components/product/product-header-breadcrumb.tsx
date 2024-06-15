@@ -1,9 +1,9 @@
 import React from "react";
 import Row from "../core/row";
 import { Product } from "@prisma/client";
+import { usePathname } from "next/navigation";
 import { firstLetterUppercase } from "@/utils/format";
 import { Breadcrumbs, Link, Skeleton, Typography } from "@mui/material";
-import { usePathname } from "next/navigation";
 
 // -----------------------------------------------------------
 

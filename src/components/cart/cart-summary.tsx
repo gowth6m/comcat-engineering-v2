@@ -116,7 +116,15 @@ const CartSummary: React.FC<Props> = ({ settings }) => {
                     </Row>
                 )}
 
-                <Row justifyContent={"space-between"} marginY={1}>
+                <Row
+                    component={"form"}
+                    justifyContent={"space-between"}
+                    marginY={1}
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleApplyPromoCode.mutate();
+                    }}
+                >
                     <TextField
                         size="small"
                         placeholder="Promo code"
@@ -132,7 +140,7 @@ const CartSummary: React.FC<Props> = ({ settings }) => {
                     />
                     <CoreButton
                         buttonVariant="primary"
-                        onClick={() => handleApplyPromoCode.mutate()}
+                        type={"submit"}
                         disabled={handleApplyPromoCode.isLoading}
                         sx={{
                             my: 0.3,
