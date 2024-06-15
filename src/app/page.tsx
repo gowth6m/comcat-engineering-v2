@@ -1,5 +1,5 @@
-import HeroCaraousel from "@/components/home-page/hero-caraousel";
-import HeroProductsListing from "@/components/home-page/hero-products-listing";
+import HeroCaraousel from "@/components/_home-page/hero-caraousel";
+import HeroProductsListing from "@/components/_home-page/hero-products-listing";
 
 // --------------------------------------------------------------
 

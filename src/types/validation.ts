@@ -31,3 +31,7 @@ export const settingSchema = z.object({
     freeDeliveryThreshold: z.number(),
     taxRate: z.number(),
 });
+
+export const categorySchema = z.object({
+    name: z.string(),
+});

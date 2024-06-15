@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { ResponseCode } from "@/types/api.type";
 import { promoCodeSchema } from "@/types/validation";
 import { NextResponse } from "next/server";
@@ -6,23 +5,6 @@ import prisma from "@/prisma";
 
 
 export async function POST(request: Request) {
-    const session = await auth();
-
-    if (!session) {
-        return NextResponse.json(
-            {
-                message: "Unauthorized",
-                errors: [
-                    {
-                        field: null,
-                        message: "You must be logged in to perform this action",
-                    },
-                ],
-            },
-            { status: ResponseCode.Unauthorized }
-        );
-    }
-
     try {
         const body = await request.json();
         const { code, discount } = promoCodeSchema.parse(body);
