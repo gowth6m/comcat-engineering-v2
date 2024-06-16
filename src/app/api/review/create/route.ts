@@ -1,10 +1,11 @@
 import { z } from "zod";
 import prisma from "@/prisma";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import { zodFieldErrors } from "../../utils";
 import { ResponseCode } from "@/types/api.type";
 import { reviewSchema } from "@/types/validation";
-import { auth } from "@/auth";
+import { ApiResponse } from "@/utils/common-response";
 
 // --------------------------------------------------
 
@@ -106,17 +107,6 @@ export async function POST(request: Request) {
             );
         }
 
-        return NextResponse.json(
-            {
-                message: "Internal server error",
-                errors: [
-                    {
-                        field: null,
-                        message: "Something went wrong",
-                    },
-                ],
-            },
-            { status: ResponseCode.InternalServerError }
-        );
+        return ApiResponse.internalServerError();
     }
 }

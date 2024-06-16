@@ -6,6 +6,7 @@ export const publicApiRoutes = [
     "/api/category",
     "/api/promo-code",
     "/api/settings",
+    "/api/category/all",
 ]
 
 export const publicRoutes = [

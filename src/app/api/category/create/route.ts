@@ -33,5 +33,7 @@ export async function POST(request: Request) {
 
     } catch (error) {
         return ApiResponse.internalServerError();
+    } finally {
+        await prisma.$disconnect();
     }
 }

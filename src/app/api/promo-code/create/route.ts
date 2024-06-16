@@ -2,6 +2,7 @@ import { ResponseCode } from "@/types/api.type";
 import { promoCodeSchema } from "@/types/validation";
 import { NextResponse } from "next/server";
 import prisma from "@/prisma";
+import { ApiResponse } from "@/utils/common-response";
 
 
 export async function POST(request: Request) {
@@ -29,17 +30,8 @@ export async function POST(request: Request) {
         );
 
     } catch (error) {
-        return NextResponse.json(
-            {
-                message: "An error occurred",
-                errors: [
-                    {
-                        field: null,
-                        message: "An error occurred while processing your request",
-                    },
-                ],
-            },
-            { status: ResponseCode.InternalServerError }
-        );
+        return ApiResponse.internalServerError();
+    } finally {
+        await prisma.$disconnect();
     }
 }

@@ -1,6 +1,7 @@
 import prisma from "@/prisma";
 import { NextResponse } from "next/server";
 import { ResponseCode } from "@/types/api.type";
+import { ApiResponse } from "@/utils/common-response";
 
 export async function GET(_req: Request) {
     try {
@@ -13,16 +14,7 @@ export async function GET(_req: Request) {
             status: ResponseCode.Success,
         });
     } catch (error) {
-        return NextResponse.json({
-            errors: [
-                {
-                    field: null,
-                    message: "Internal server error",
-                },
-            ]
-        }, {
-            status: ResponseCode.InternalServerError,
-        });
+        return ApiResponse.internalServerError();
     } finally {
         await prisma.$disconnect();
     }

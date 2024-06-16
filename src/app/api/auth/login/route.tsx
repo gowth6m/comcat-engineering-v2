@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { zodFieldErrors } from "../../utils";
 import { ResponseCode } from "@/types/api.type";
 import { loginSchema } from "@/types/validation";
+import { ApiResponse } from "@/utils/common-response";
 
 // --------------------------------------------------
 
@@ -57,32 +58,10 @@ export async function POST(request: Request) {
                     );
 
                 default:
-                    return NextResponse.json(
-                        {
-                            errors: [
-                                {
-                                    field: null,
-                                    message: "Unknown error",
-                                },
-                            ],
-                        },
-                        {
-                            status: ResponseCode.InternalServerError,
-                        }
-                    );
+                    return ApiResponse.internalServerError();
             }
         }
 
-        return NextResponse.json(
-            {
-                errors: [
-                    {
-                        field: null,
-                        message: "Internal server error",
-                    },
-                ],
-            },
-            { status: ResponseCode.InternalServerError }
-        );
+        return ApiResponse.internalServerError();
     }
 }
